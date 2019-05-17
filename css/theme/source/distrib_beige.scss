@@ -1,0 +1,375 @@
+/**
+ * Beige theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+
+// Include theme-specific fonts
+@import url(../../lib/font/league-gothic/league-gothic.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+
+
+// Override theme settings (see ../template/settings.scss)
+$mainColor: #333;
+$headingColor: #333;
+$headingTextShadow: none;
+$backgroundColor: #f7f3de;
+$linkColor: #8b743d;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: rgba(79, 64, 28, 0.99);
+$heading1TextShadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 20px 20px rgba(0,0,0,.15);
+
+/*$mainFontSize: 14px;*/
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+
+// Background generator
+@mixin bodyBackground() {
+	@include radial-gradient( rgba(247,242,211,1), rgba(255,255,255,1) );
+}
+
+// Credits:
+// Big part of the code have taken from the project
+// https://github.com/gapple/myplanet-revealjs
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+$viewport-tiny: "max-width: 568px";
+$viewport-small: "max-width: 768px";
+$viewport-wide: "min-width: 1280px";
+
+$white: #FFFFFF;
+$light-grey: #EEEDEF;
+$grey: #66646B;
+$black: #22272B;
+$radiant: #F25930;
+$ice: #9292A8;
+$midnight: #2A2A49;
+
+$patterns: (
+	'hills': (
+		'intro-bg': #FAFAFA,
+		'title-bg': #872E27,
+	),
+	'indigo': (
+		'intro-bg': #FAFAFA,
+		'title-bg': #872E27,
+	),
+	'molecules': (
+		'intro-bg': #FAFAFA,
+		'title-bg': #872E27,
+	),
+	'night-sky': (
+		'intro-bg': #DEF9F6,
+		'title-bg': #0D7D7F,
+	),
+	'orange-river': (
+		'intro-bg': #FFEDE9,
+		'title-bg': #872E27,
+	),
+	'palette': (
+		'intro-bg': #FFEDE9,
+		'title-bg': #872E27,
+	),
+	'playground': (
+		'intro-bg': #FCECDB,
+		'title-bg': #8E3E28,
+	),
+	'pop': (
+		'intro-bg': #FFEDE9,
+		'title-bg': #872E27,
+	),
+	'quilt': (
+		'intro-bg': #DEF9F6,
+		'title-bg': #0D7D7F,
+	),
+	'stream': (
+		'intro-bg': #DEF9F6,
+		'title-bg': #0D7D7F,
+	),
+	'stripes': (
+		'intro-bg': #FFEDE9,
+		'title-bg': #872E27,
+	),
+	'waterfall': (
+		'intro-bg': #DEF9F6,
+		'title-bg': #0D7D7F,
+	),
+	'waves': (
+		'intro-bg': #DEF9F6,
+		'title-bg': #0D7D7F,
+	),
+);
+
+$colors: (
+	'dark': (
+		'bg': $black,
+		'fg': $light-grey,
+		'logo': 'white',
+	),
+	'ice': (
+		'bg': $ice,
+		'fg': $white,
+		'logo': 'white',
+	),
+	'light': (
+		'bg': $white,
+		'fg': $grey,
+		'logo': 'ice',
+	),
+	'midnight': (
+		'bg': $midnight,
+		'fg': $white,
+		'logo': 'white',
+	),
+	'radiant': (
+		'bg': $radiant,
+		'fg': $white,
+		'logo': 'white',
+	),
+);
+
+$headerLogoHeight: 4.5vmin;
+$slidePadding: 10vmin;
+
+html {
+	  font-size: 2.25vmin;
+}
+@media (#{$viewport-small}) {
+	  html {
+		    font-size: 16px;
+	  }
+}
+@media (#{$viewport-tiny}) {
+	  html {
+		    font-size: 14px;
+	  }
+}
+
+.grid-wrapper {
+	  display: grid;
+}
+
+.reveal .slides {
+	  text-align: left;
+}
+.reveal .slides > section,
+.reveal .slides > section > section {
+	  padding: 0;
+}
+
+.reveal .controls {
+	  right: 4vmin;
+	  bottom: 4vmin;
+
+	  @media (#{$viewport-small}) {
+		    right: 2vmin;
+		    bottom: 2vmin;
+	  }
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+	  margin-bottom: 2.5vmin;
+	  color: inherit;
+}
+.reveal .slides section {
+	  box-sizing: border-box;
+	  padding: 0;
+}
+ 
+.reveal section img {
+	  background: $white;
+	  border: none;
+	  box-shadow: none;
+	  margin: 0;
+}
+
+@mixin section ($margin: 0) {
+	  @if ($margin == 0) {
+		    height: 100vh;
+		    margin: 0;
+		    width: 100vw;
+	  }
+	  @else {
+		    height: calc(100vh - #{2 * $margin});
+		    margin: $margin;
+		    width: calc(100vw - #{2* $margin});
+	  }
+}
+
+.reveal .slides section.grid4 {
+
+	  .grid-wrapper {
+		    grid-template-areas: "header header" "leftside rightside";
+		    grid-template-rows: 5vmin 1fr ;
+		    grid-template-columns: 2fr 1fr;
+        grid-column-gap: calc( $slidePadding/3);
+        grid-row-gap: $slidePadding;
+    }
+	  .header {
+		    align-self: center;
+		    grid-area: header;
+	  }
+
+	  .content {
+		    align-self: left;
+		    grid-area: leftside;
+        font-size: 80%;
+	  }
+
+	  .images {
+		    align-self: rigth;
+		    grid-area: rightside;
+	  }
+
+}
+
+.reveal .slides section.grid3 {
+
+   
+	  .container {
+		    display: flex; 
+    }
+
+   .col{
+        flex: 1;
+    }
+
+}
+
+
+
+.reveal .slides section.intro {
+	@include section(4vmin);
+
+	@media (#{$viewport-small}) {
+		@include section(2vmin);
+	}
+
+	.logo-wrapper {
+		display: flex;
+		height: 100%;
+	}
+
+	.logo {
+		background-position: center;
+		background-size: contain;
+		height: auto;
+		margin: auto;
+		min-height: 200px;
+		min-width: 200px;
+		width: 33%;
+	}
+}
+
+
+.reveal .slides section.title {
+
+ /*   
+	@include section();
+	margin-left: 0vw;
+	width: calc(100vw - 4vmin - 22vw);
+
+	@media (#{$viewport-small}) {
+		@include section(2vmin);
+	}
+*/   
+	.grid-wrapper {
+		grid-template-areas:
+			"header header"
+			"content content"
+			". credit";
+		grid-template-columns: auto 40%;
+		grid-template-rows: 6hv 2fr 1fr;
+/*		grid-column-gap: $slidePadding;*/
+	}
+
+	.logo {
+		background-image: url("../../myfiles/images/DHBW.svg");
+    width: 320px;
+    height: 200px;
+    background-size: 320px 200px;
+	}
+
+	.content {
+		align-self: center;
+		grid-area: content;
+	}
+
+	.credit {
+		align-self: end;
+		grid-area: credit;
+		line-height: 1.8em;
+
+		hr {
+			border: solid $light-grey;
+			border-width: 1px 0 0 0;
+			margin: 0 0 .8em 0;
+			width: 20%;
+		}
+		.label {
+			font-size: 40%;
+			text-transform: uppercase;
+		}
+		.name {
+			font-size: 90%;
+		}
+	}
+
+	@media (#{$viewport-tiny}) {
+		.grid-wrapper {
+			grid-template-areas: "header" "content" "credit";
+			grid-template-columns: auto;
+		}
+		.credit {
+			justify-self: end;
+		}
+	}
+
+	@media (#{$viewport-wide}) {
+		.content {
+			display: grid;
+			grid-template-areas: "title description";
+			grid-template-columns: auto 40%;
+			grid-column-gap: $slidePadding;
+		}
+		h1 {
+			grid-area: title;
+		}
+		.description {
+			grid-area: description;
+			margin-top: 0.5em;
+		}
+	}
+}
+
+
+//construction to make font size smaller 
+.smallnavigation {
+   // background-color: black;
+    padding: 20px;
+    font-size: 22px;
+    ul {
+    }
+    li {
+    }
+}
+
+

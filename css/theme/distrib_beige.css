@@ -1,0 +1,519 @@
+/**
+ * Beige theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+@import url(../../lib/font/league-gothic/league-gothic.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+/*$mainFontSize: 14px;*/
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+body {
+  background: #f7f2d3;
+  background: -moz-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, white), color-stop(100%, #f7f2d3));
+  background: -webkit-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
+  background: -o-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
+  background: -ms-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
+  background: radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
+  background-color: #f7f3de;
+}
+
+.reveal {
+  font-family: "Lato", sans-serif;
+  font-size: 40px;
+  font-weight: normal;
+  color: #333;
+}
+
+::selection {
+  color: #fff;
+  background: rgba(79, 64, 28, 0.99);
+  text-shadow: none;
+}
+
+::-moz-selection {
+  color: #fff;
+  background: rgba(79, 64, 28, 0.99);
+  text-shadow: none;
+}
+
+.reveal .slides section,
+.reveal .slides section > section {
+  line-height: 1.3;
+  font-weight: inherit;
+}
+
+/*********************************************
+ * HEADERS
+ *********************************************/
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-family: "League Gothic", Impact, sans-serif;
+  font-weight: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-shadow: none;
+  word-wrap: break-word;
+}
+
+.reveal h1 {
+  font-size: 2.5em;
+}
+
+.reveal h2 {
+  font-size: 1.6em;
+}
+
+.reveal h3 {
+  font-size: 1.3em;
+}
+
+.reveal h4 {
+  font-size: 1em;
+}
+
+.reveal h1 {
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15);
+}
+
+/*********************************************
+ * OTHER
+ *********************************************/
+.reveal p {
+  margin: 20px 0;
+  line-height: 1.3;
+}
+
+/* Ensure certain elements are never larger than the slide itself */
+.reveal img,
+.reveal video,
+.reveal iframe {
+  max-width: 95%;
+  max-height: 95%;
+}
+
+.reveal strong,
+.reveal b {
+  font-weight: bold;
+}
+
+.reveal em {
+  font-style: italic;
+}
+
+.reveal ol,
+.reveal dl,
+.reveal ul {
+  display: inline-block;
+  text-align: left;
+  margin: 0 0 0 1em;
+}
+
+.reveal ol {
+  list-style-type: decimal;
+}
+
+.reveal ul {
+  list-style-type: disc;
+}
+
+.reveal ul ul {
+  list-style-type: square;
+}
+
+.reveal ul ul ul {
+  list-style-type: circle;
+}
+
+.reveal ul ul,
+.reveal ul ol,
+.reveal ol ol,
+.reveal ol ul {
+  display: block;
+  margin-left: 40px;
+}
+
+.reveal dt {
+  font-weight: bold;
+}
+
+.reveal dd {
+  margin-left: 40px;
+}
+
+.reveal blockquote {
+  display: block;
+  position: relative;
+  width: 70%;
+  margin: 20px auto;
+  padding: 5px;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+}
+
+.reveal blockquote p:first-child,
+.reveal blockquote p:last-child {
+  display: inline-block;
+}
+
+.reveal q {
+  font-style: italic;
+}
+
+.reveal pre {
+  display: block;
+  position: relative;
+  width: 90%;
+  margin: 20px auto;
+  text-align: left;
+  font-size: 0.55em;
+  font-family: monospace;
+  line-height: 1.2em;
+  word-wrap: break-word;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.reveal code {
+  font-family: monospace;
+  text-transform: none;
+}
+
+.reveal pre code {
+  display: block;
+  padding: 5px;
+  overflow: auto;
+  max-height: 400px;
+  word-wrap: normal;
+}
+
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.reveal table th {
+  font-weight: bold;
+}
+
+.reveal table th,
+.reveal table td {
+  text-align: left;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-bottom: 1px solid;
+}
+
+.reveal table th[align=center],
+.reveal table td[align=center] {
+  text-align: center;
+}
+
+.reveal table th[align=right],
+.reveal table td[align=right] {
+  text-align: right;
+}
+
+.reveal table tbody tr:last-child th,
+.reveal table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.reveal sup {
+  vertical-align: super;
+  font-size: smaller;
+}
+
+.reveal sub {
+  vertical-align: sub;
+  font-size: smaller;
+}
+
+.reveal small {
+  display: inline-block;
+  font-size: 0.6em;
+  line-height: 1.2em;
+  vertical-align: top;
+}
+
+.reveal small * {
+  vertical-align: top;
+}
+
+/*********************************************
+ * LINKS
+ *********************************************/
+.reveal a {
+  color: #8b743d;
+  text-decoration: none;
+  -webkit-transition: color 0.15s ease;
+  -moz-transition: color 0.15s ease;
+  transition: color 0.15s ease;
+}
+
+.reveal a:hover {
+  color: #c0a86e;
+  text-shadow: none;
+  border: none;
+}
+
+.reveal .roll span:after {
+  color: #fff;
+  background: #564826;
+}
+
+/*********************************************
+ * IMAGES
+ *********************************************/
+.reveal section img {
+  margin: 15px 0px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 4px solid #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.reveal section img.plain {
+  border: 0;
+  box-shadow: none;
+}
+
+.reveal a img {
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+}
+
+.reveal a:hover img {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #8b743d;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+}
+
+/*********************************************
+ * NAVIGATION CONTROLS
+ *********************************************/
+.reveal .controls {
+  color: #8b743d;
+}
+
+/*********************************************
+ * PROGRESS BAR
+ *********************************************/
+.reveal .progress {
+  background: rgba(0, 0, 0, 0.2);
+  color: #8b743d;
+}
+
+.reveal .progress span {
+  -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+}
+
+/*********************************************
+ * PRINT BACKGROUND
+ *********************************************/
+@media print {
+  .backgrounds {
+    background-color: #f7f3de;
+  }
+}
+html {
+  font-size: 2.25vmin;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media (max-width: 568px) {
+  html {
+    font-size: 14px;
+  }
+}
+.grid-wrapper {
+  display: grid;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides > section,
+.reveal .slides > section > section {
+  padding: 0;
+}
+
+.reveal .controls {
+  right: 4vmin;
+  bottom: 4vmin;
+}
+@media (max-width: 768px) {
+  .reveal .controls {
+    right: 2vmin;
+    bottom: 2vmin;
+  }
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  margin-bottom: 2.5vmin;
+  color: inherit;
+}
+
+.reveal .slides section {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.reveal section img {
+  background: #FFFFFF;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+
+.reveal .slides section.grid4 .grid-wrapper {
+  grid-template-areas: "header header" "leftside rightside";
+  grid-template-rows: 5vmin 1fr;
+  grid-template-columns: 2fr 1fr;
+  grid-column-gap: calc( $slidePadding/3);
+  grid-row-gap: 10vmin;
+}
+.reveal .slides section.grid4 .header {
+  align-self: center;
+  grid-area: header;
+}
+.reveal .slides section.grid4 .content {
+  align-self: left;
+  grid-area: leftside;
+  font-size: 70%;
+}
+.reveal .slides section.grid4 .images {
+  align-self: rigth;
+  grid-area: rightside;
+}
+
+.reveal .slides section.grid3 .container {
+  display: flex;
+}
+.reveal .slides section.grid3 .col {
+  flex: 1;
+}
+
+.reveal .slides section.intro {
+  height: calc(100vh - 8vmin);
+  margin: 4vmin;
+  width: calc(100vw - 8vmin);
+}
+@media (max-width: 768px) {
+  .reveal .slides section.intro {
+    height: calc(100vh - 4vmin);
+    margin: 2vmin;
+    width: calc(100vw - 4vmin);
+  }
+}
+.reveal .slides section.intro .logo-wrapper {
+  display: flex;
+  height: 100%;
+}
+.reveal .slides section.intro .logo {
+  background-position: center;
+  background-size: contain;
+  height: auto;
+  margin: auto;
+  min-height: 200px;
+  min-width: 200px;
+  width: 33%;
+}
+
+.reveal .slides section.title {
+  /*   
+  	@include section();
+  	margin-left: 0vw;
+  	width: calc(100vw - 4vmin - 22vw);
+
+  	@media (max-width: 768px) {
+  		@include section(2vmin);
+  	}
+  */
+}
+.reveal .slides section.title .grid-wrapper {
+  grid-template-areas: "header header" "content content" ". credit";
+  grid-template-columns: auto 40%;
+  grid-template-rows: 6hv 2fr 1fr;
+  /*		grid-column-gap: $slidePadding;*/
+}
+.reveal .slides section.title .logo {
+  background-image: url("../../myfiles/images/DHBW.svg");
+  width: 320px;
+  height: 200px;
+  background-size: 320px 200px;
+}
+.reveal .slides section.title .content {
+  align-self: center;
+  grid-area: content;
+}
+.reveal .slides section.title .credit {
+  align-self: end;
+  grid-area: credit;
+  line-height: 1.8em;
+}
+.reveal .slides section.title .credit hr {
+  border: solid #EEEDEF;
+  border-width: 1px 0 0 0;
+  margin: 0 0 0.8em 0;
+  width: 20%;
+}
+.reveal .slides section.title .credit .label {
+  font-size: 40%;
+  text-transform: uppercase;
+}
+.reveal .slides section.title .credit .name {
+  font-size: 90%;
+}
+@media (max-width: 568px) {
+  .reveal .slides section.title .grid-wrapper {
+    grid-template-areas: "header" "content" "credit";
+    grid-template-columns: auto;
+  }
+  .reveal .slides section.title .credit {
+    justify-self: end;
+  }
+}
+@media (min-width: 1280px) {
+  .reveal .slides section.title .content {
+    display: grid;
+    grid-template-areas: "title description";
+    grid-template-columns: auto 40%;
+    grid-column-gap: 10vmin;
+  }
+  .reveal .slides section.title h1 {
+    grid-area: title;
+  }
+  .reveal .slides section.title .description {
+    grid-area: description;
+    margin-top: 0.5em;
+  }
+}
+
+.smallnavigation {
+  padding: 20px;
+  font-size: 22px;
+}
+
+/*# sourceMappingURL=distrib_beige.css.map */
