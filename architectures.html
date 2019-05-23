@@ -1,0 +1,842 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Distributed systems</title>
+    <meta name="author" content="Petko Rutešić">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/distrib_beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		    <script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+          <section class="grid3" >
+					    <div class="container">
+						      <div class="col">
+							        <!-- Remove logo--full class to only show brand mark -->
+						      
+							        <h2>Distributed systems</h2>
+
+							        <h3>Architectures</h3>
+							    </div>
+						  </div>
+				  </section>
+
+          <section data-transition="zoom">
+              <h3> Organization of distributed systems</h3>
+
+              <p> The importance of organization of distributed systems:</p>
+              Two types of architectures (according to van Steen, Tannenbaum)
+              <ul>
+                  <li><mark>Software achitecture</mark></li>
+                  <ul>
+                      <li>shows how software components are to be organized
+                          and how they should interact</li>
+                  </ul>
+ 
+                  <li><mark>System architecture</mark></li>
+                  <ul>
+                      <li>shows how software components are finally instantiated
+                      on real machines</li>
+                  </ul>
+              </ul>
+              
+          </section>
+
+          <section data-transition="zoom">
+              <h3>What is an architectural style</h3>
+              <ul style="font-size:80%">
+                  <li> types of components we have in the system </li>
+                  <li> manner in which are those components connected to each other </li>
+                  <li> the way in which data is exchanged among components </li>
+                  <li> how components are jointly configured into a system </li> 
+              </ul>
+              <ul style="font-size:80%">
+                  <p style="background-color:aqua"> Two types of entities</p>
+                  <li style="font-weight:bold">component</li>
+                  <ul>
+                      <li>modular units which have well defined interfaces</li>
+                      <li>on many occassions it should be possible to replace
+                          them while system operates </li>
+                  </ul>
+                  <li style="font-weight:bold"> connector </li>
+                  <ul>
+                      <li>mechanisms that mediate communication, coordination and
+                          cooperation among components</li>
+                      <li>examples: facilities for remote procedure calls,
+                          message passing, streaming data</li>
+                  </ul>
+              </ul>
+          </section>
+
+				  <section data-transition="linear">
+              <h2>Architectural styles</h2>
+              <ul class ="full-slide">
+                  <li>Layered architectures </li>
+                  <li>Object-based architectures</li>
+                  <li>Resource centered architectures</li>
+                  <li>Event-based architectures</li>
+              </ul>
+          </section>
+
+				  <section data-transition="linear">
+              <h2>Layered architectures</h2>
+
+              <img src="myfiles/images/architectures/layers1.png" style="width:80%"/>
+              <ul class ="full-slide">
+                  <li>communication through downcalls (rarely upcalls)</li>
+              </ul>
+          </section>
+
+				  <section data-transition="linear">
+              <h2>Layered architectures</h2>
+              <ul class ="full-slide">
+                  <li>Example: layered communication protocols </li>
+                  <ul>
+                      <li>Each layer implements <mark>communication services</mark> </li>
+
+                      <li>Each layer has <mark>interface</mark> specifying functions that can be called</li>
+                      <li>Each layer has <mark>protocol</mark> that implements
+                          to establish communication</li>
+                 </ul>
+                 <li> important to differentiate these three categories</li>
+
+          </section>
+
+				  <section data-transition="linear">
+              <h2>Layered architectures</h2>
+              <h3>Transmission control protocol(TCP)</h3>
+              <ul class ="full-slide">
+                          <li>Protocol specifies what messages are to be exchanged to set up or tear down a connection </li>
+                          <li>what needs to be done to preserve ordering of data </li>
+                          <li>how to detect and correct data that was lost during transmission</li>
+                          <li>implementations of protocols are different (dependent on operating system or programming language</li>
+              </ul>
+          </section>
+
+
+				  <section data-transition="linear">
+              <h2>Logical layering of applications</h2>
+              <ul>
+                  <li style="font-weight:bold">application interface level</li>
+                  <ul>
+                     <li>which handles interactions with users or external applications</li>
+                  </ul>
+                  <li style="font-weight:bold">processing level</li>
+                  <ul>
+                      <li>middle system which contains core functionality of the application</li>
+                  </ul>
+                  <li style="font-weight:bold">data level</li>
+                  <ul>
+                      <li>operates on databases or file system</li>
+                  </ul>
+              </ul>
+          </section>
+
+				  <section data-transition="linear">
+              <h3> Simplified organization of an Internet search Engine</h3>
+              <img src="myfiles/images/architectures/searchengine.png" style="width=80%"/>
+              
+              <p> Example of three tier organization</p>
+              <!-- Simple user interface just to type in a string of keywords and to present
+                   a list of titles of Web pagess
+                   the back end huge database of web pages which have been prefetched and  indexed
+
+                   the core is a program which transforms user's string of keywords to list of
+                   html pages. Information retrieval part is typically placed at the processing
+                   level. 
+
+                   Another examples decision support system for stock brokerage 
+                   and typical desktop package with word processor, spreadsheet application, etc.
+              -->
+          </section>
+
+
+
+				  <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+						      <div class="header">
+                      <h3>Object-based architectures</h3>
+                  </div>
+						      <div class="content">
+                      <ul>
+                          <li>more loose organisation</li>
+                          <li><mark>objects</mark> - represent components</li>
+                          <li><mark>procedure calls</mark> - represent connectors </li>
+                          <li>procedure calls take place over the network</li>
+
+                      </ul>
+                      <!-- represent natural way of encapsulating data and
+                           operatins that cann be performed on that data
+                      -->
+						      </div>
+                  <div class="images">
+                      <img src="myfiles/images/architectures/objectbased.png" style="width:100%"  />
+                  </div> 
+          </section>
+
+				  <section data-transition="linear">
+              <h2>Object based architectures - cont.</h2>
+
+              <img src="myfiles/images/architectures/objects.png" style="width:80%"/>
+              <ul class ="full-slide">
+                  <li>remote objects - in reality we have only implemented interfaces on the other machine</li>
+                  <li>encapsulation</li>
+              </ul>
+          </section>
+
+
+
+ 				  <section data-transition="zoom">
+              <h3>Object-based and service-oriented architectures</h3>
+              <ul style="font-size:90%; margin-bottom:25px">
+                  <li>service-oriented architectures (<mark>SOA</mark>) </li>
+                  <ul>
+                      <li>distributed application - composition of many services</li>
+
+                      <li>services should to be organized in logical units</li>
+                      <li>all services do not have to be in the same organization</li>
+                  </ul>
+                  
+              </ul>
+              <ul style="font-size:90%">
+                  Example: Web shop selling goods
+                  <li>Ordering includes selecting items, registering,
+                      checking delivery channal, payment</li>
+                  <li>payment can be handled by separate service
+                      run by different organization</li>
+                  <li> service composition</li>
+              </ul>
+          </section>
+
+
+				  <section data-transition="linear">
+              <h3>Resource-based architecture</h3>
+              <ul style="font-size: 70%">
+                  <li>Integrating many various components in
+                      service-oriented architecture can be cumbersome</li>
+                  <li>This led to a new alternative approach</li>
+                  <li>view of distributed system as a collection of resources</li>
+                 <!-- resources individually managed by components--> 
+                  <li style="font-weight:bold">Representational State Transfer (REST)</li>
+                  <li>REST characteristics:</li>
+                  <ol>
+                      <li>indentification through a single naming scheme </li>
+
+                      <li>all services have the same interface with most <b>four operations</b> </li>
+                      
+                      <li>fully self-described messages </li>
+                      
+                      <li> component forgets everything about the caller
+                          after executing operation at a service (<b>stateless execution</b>)</li>
+                  </ol>
+              </ul>
+
+          </section>
+
+				  <section  data-transition="linear">
+              <h3>RESTful architecure - operations</h3>
+              <ul>
+                  <table>
+                      <tr>
+                          <th>Operation</th>
+                          <th>Description</th>
+                      </tr>
+                      <tr>
+                          <td>PUT</td>
+                          <td>Modify a resource by transferring a new state</td>
+                      </tr>
+                      <tr>
+                          <td>GET</td>
+                          <td>Retrieve the state of the resource</td>
+                      </tr>
+                      <tr>
+                          <td>DELETE</td>
+                          <td>Delete a resource</td>
+                      </tr>
+                      <tr>
+                          <td>POST</td>
+                          <td>Create a new resource</td>
+                      </tr>
+                  </table>
+              </ul>
+          </section>
+
+
+				  <section data-transition="linear">
+              <h3>SOA vs. REST</h3>
+              <p>questions whether RESTful is better then SOA</p>
+              <ul style="font-size:80%;">
+                  <!--
+                       Holy wars are being fought on this topic
+                  -->
+                  <li> SOA client and server are simply more coupled</li>
+                  <li style="margin-bottom:32px"> REST client is more like a browser.</li>
+                  
+                  <li> SOA client has to know exactly what service it needs</li>
+                  <li style="margin-bottom:32px"> REST client has to know simply only entry point and media type</li>
+
+                  <li> SOA architecture is more suitable in cases where the state has to be
+                  preserved</li>
+                  <li> REST solutions are more complex when state has to be preserved</li>
+                  <!-- It's up to user to find the solutions in these cases-->
+              </ul>
+         </section>
+
+          <section data-transition="linear">
+              <h3>Event-based architectures (Publish-subscribe architectures)</h3>    
+              <table style="font-size:80%">
+                  <tr>
+                      <th></th>
+                      <th>Temporally coupled</th>
+                      <th>Temporally decoupled</th>
+                  </tr>
+                  <tr>
+
+                      <td><b>Referentially coupled</b></td>
+                      <td>Direct</td>
+                      <td>Mailbox</td>
+                  </tr>
+                  <tr>
+                      <td><b>Referentially decoupled</b></td>
+                      <td>Event-based</td>
+                      <td>Shared data space</td>
+                  </tr>
+              </table>
+
+          </section>
+
+ 				  <section data-transition="linear">
+              <h3>Middleware organization</h3>
+              <ul style="font-size: 70%">
+                  <li>overall organiztion of the actual distributed systems</li>
+                  <li>two most used design patterns for middleware organization</li>
+                  <ul>
+                      <li style="font-weight:bold">wrappers</li>
+                      <ul>
+                          <li>wrappers (adapters) are components which offer interface
+                          suitable for client applications</li>
+                          <li>solve the problem of incompatible interfaces</li>
+                      </ul>
+ 
+                      <li style="font-weight:bold">interceptors</li>
+                      <ul>
+                          <li>break usual flow of control in orderd to execute code </li>
+                      </ul>
+                  </ul>
+              </ul>
+          </section>             
+
+ 				  <section data-transition="linear">
+              <h3>Wrapper</h3>
+              <ul style="font-size: 70%">
+                  <li> always played an important role in extending system interfaces</li>
+                  <li> basically if we system A having some data wants to provide that data to B
+                      it needs a wrapper </li>
+                  <li> in this system for cooperation we would need $N \times (N-1) = O(N) $ wrappers
+                  which is not good solution</li>
+                  <li> middleware solution with a <b>message broker</b></li>
+                  <ul>
+                      <li> brocker has relevant information about applications</li>
+                      <li> combines and transforms responses and gives results to the <tr>
+                          initial application
+                      </tr></li>
+
+                  </ul>
+              </ul>
+          </section>
+
+ 				  <section data-transition="linear">
+              <h3>Interceptor</h3>
+              <ul style="font-size: 70%">
+
+                  <li> an object A can call a method that belongs to an object B (which resides on a
+                  different machine than A)</li>
+                  <li> limited interception abilities improves management of the software</li>
+                  <li> this remote-object invocation is carried out in three steps: 
+                      <ul>
+                          <li> object A is offered a local interface. A calls a method offered in that interface </li>
+                          <li> the call is transformed through a generic object-invocation interface offered
+                          by the middleware</li> 
+                          <li> generic object-invocaton is transformed into message and sent throug the network </li>
+                      </ul>
+              </ul>
+          </section>
+
+  				<section data-transition="linear">
+              <h3>Middleware organization</h3>
+              <ul style="font-size: 70%">
+                  <li>overall organiztion of the actual distributed systems</li>
+                  <li>two most used design patterns for middleware organization</li>
+                  <ul>
+                      <li style="font-weight:bold">wrappers</li>
+                      <ul>
+                          <li>wrappers (adapters) are components which offer interface
+                              suitable for client applications</li>
+                          <li>solve the problem of incompatible interfaces</li>
+                      </ul>
+                      
+                      <li style="font-weight:bold">interceptors</li>
+                      <ul>
+                          <li>break usual flow of control in orderd to execute code </li>
+                      </ul>
+                  </ul>
+              </ul>
+          </section>
+
+  				<section data-transition="linear">
+              <h3>System architecture</h3>
+              <ul style="font-size: 80%">
+                  <li>an instance of software architecture which decides on:</li>
+                  <ul>
+                      <li> software components</li>
+                      <li> interaction of components</li>
+                      <li> placements of components</li>
+                  </ul>
+                  <li> considers where software components are placed <br/>[Bass at all. 2003]</li>
+                  <ul>
+                      Types:
+                      <li style="font-weight:bold">centralized organization</li>
+                      <li style="font-weight:bold">decentralized organization</li>
+                      <li style="font-weight:bold">hybrid organization</li>
+                  </ul>
+              </ul>
+          </section>
+
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+						      <div class="header">
+                      <h3>Centralized organization</h3>
+						      </div>
+						      <div class="content">
+                      <ul style="font-size: 80%">
+                          <li> client-server organization can be used to explain many constructions in distributed systems</li>
+                          <li><b>Simple client-server architecture</b></li> 
+                          <ul>
+                              processes divided into two groups 
+                              <li><b>Server</b></li>
+                              <ul>
+                                  <li>Implements specific service (for instance database service)</li>
+                              </ul>
+                              <li><b>Client</b></li>
+                              <ul>
+                                  <li>requests the service from the server</li>
+                                  <li>sends request and then wait for the server's reply</li>
+                              </ul>
+                          </ul>
+                      </ul>
+							    </div>
+                  <div class="image">
+                      <img src="myfiles/images/architectures/simple-client-server.png" style="width:100%"  />
+							    </div>
+          </section>
+
+          <section data-transition="linear">
+              <h3>Simple client server architecture</h3>
+              <ul style="font-size:70%">
+                  <li>using <b>connectionless</b> protocols</li>
+                  <ul>
+                      <li> in secure local-area network </li>
+                      <li> efficient as long as messages are not corrupted</li>
+                      <li> request-response works fine</li>
+                      <li> <b>idempotent</b> operations - which can be repeated multiple times with no harm</li>
+                      <li> this is ok if we don't need to do some transactions</li>
+                  </ul>
+                  <li> using <b>connection-oriented</b> protocols</li>
+                  <ul>
+                      <li>more reliable </li>
+                      <li>suitable for WAN networks - more reliable in an unreliable environment</li>
+                      <li>example: TCP/IP protocol </li>
+                      <li>bigger overhead (cost) then with connectionless protocols</li>
+                      <li> creating and closing connections</li>
+                  </ul>
+              </ul>
+              <!-- UDP is for instance used for multimedia transfers -->
+              <!-- One of questions: How to differentiate between clients and servers--> 
+          </section>
+          <section data-transition="linear">
+                      <h3>Different two-tiered organizations </h3>
+
+                      <img src="myfiles/images/architectures/two-tiered-diff.png" style="width:80%"  />
+
+                      <ol style="font-size:80%">
+                          <li>only terminal dependent part on the client machine</li>
+                          <li>entire user interface on the client side</li> 
+                          <li>front end has a part of the applicaton - js in html forms</li> 
+                          <li>complete application on the client side - banking applications</li> 
+                          <li>part of the data on the client's local disk - browsing the Web</li> 
+                      </ol>
+          </section>
+
+          <section  data-transition="linear">
+              <h3>Different two-tiered organizations -cont </h3>
+              <p>General division on fat and thin clients</p>
+              <ul>
+                  <li><b>fat clients</b></li>
+                  <ul> 
+                      <li>examples 4,5 on the last page</li>
+                  </ul>
+                  <li><b>thin clients</b></li>
+                  <ul>
+                      <li>examples 1,2,3 on the last page</li>
+                  </ul>
+              </ul>
+          </section>
+
+
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+						      <div class="header">
+                      <h3>Multitiered architectures</h3>
+						      </div>
+						      <div class="content">
+
+                      <img src="myfiles/images/architectures/three-tiered.png" style="width:100%"  />
+						    </div>
+                  <div class="image">
+                      <ul style="font-size:80%">
+                          <li>sometimes server has to act as a client</li>
+                          <li>example of physically <b>three-tiered architecture</b></li> 
+
+                          <li>single server is being replaced by multiple servers </li> 
+                          <li>examples: transaction processing and Web sites </li> 
+                          <!-- server sides are becoming increasingly distributed-->
+                          <!-- What are examples of this architecture?
+                          transaction processing or Web sites--> 
+                      </ul>
+	
+							    </div>
+          </section>
+
+
+          <section  data-transition="linear">
+              <h3>Decentralized organizations ( peer-to-peer systems ) </h3>
+              <ul style="font-size:90%">
+                  <li>clients or servers are split into equivalent parts</li>
+                  <li>each part operates on it's share of data </li>
+                  <li>processes that constitute pear-to-pear system tend to be equal  </li>
+                  <li> <b>servant</b> - process that acts as a client and a server at the same time </li>
+                  <li> <b>overlay network</b></li>
+                  <ul>
+                      <li>network in which the nodes are formed from processes and communication channels </li>
+                      <li> nodes communicate by sending messages through the
+                          available communication channels (often TCP connections)</li>
+                  </ul>
+              </ul>
+          </section>
+
+          <section  data-transition="linear">
+              <h3>Types of peer-to-peer systems</h3>
+              <p> 2 general types identified</p>
+              <ul style="font-size:90%">
+                  <li><b>Structured peer-to-peer systems</b></li>
+                  <ul>
+                      <li> overlay adheres to a specific, deterministic topology (ring, binary tree, grid..)</li>
+                      <li> topology used to look up data </li>
+                  </ul>
+                  <li><b>Unstructured peer-to-peer systems</b></li>
+                  <ul>
+                      <li> each node maintains ad hoc list of neighbors</li>
+                  </ul>
+              </ul>
+          </section>
+
+          <section  data-transition="linear">
+              <h3>Structured pear-to-pear systems</h3>
+              <p> </p>
+              <ul style="font-size:90%">
+                  <li>specific topology</li>
+                  <li>using sematic-free index</li>
+                  <li>each data used by the system is uniquely associated with a key</li>
+                      <b>$key(data\ item) = hash(data\ item's\ value) $</b>
+                  <li>peer-to-peer system stores pairs <b>(key, value)</b></li>
+                  <li>each node is responisble for a specific subset of keys</li>
+                  <li>each node is with one of these keys</li>
+                  <li>system represents <b>distributed hash table</b></li>
+                 <li>system has to provide efficent implementations of lookup function</li>
+                 <b>$existing\ node= lookup(key) $</b>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>Structured peer-to-peer systems - hypercube</h3>
+
+              <img src="myfiles/images/architectures/hypercube.png" style="width:80%"  />
+
+              <ul style="font-size:80%">
+                  <li>14 is represented with 1110 as a binary value</li> 
+                  <li>example -  looking for 14 from the node 0111</li> 
+                  <li>2 options 0110 or 1111 and both give in the next iteration the  solution 1110</li>
+              </ul>
+          </section>
+
+          <section class ="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+						      <div class="header">
+                      <h3>Structured peer-to-peer systems - chord</h3>
+						      </div>
+						      <div class="content">
+                      <img src="myfiles/images/architectures/chord1.png" style="width:100%"  />
+
+						      </div>
+                  <div class="image">
+                      <ul style="font-size:70%">
+                          <li>key k is mapped to the node with the smallest identrifier $id \ge k$</li>
+                          <li>key 128 or 160 bits long</li> 
+                          <li>for instance node 9 is asked to look up the node responsible for key 3</li> 
+                          <li>node 9 has 4 shortcuts 11, 14, 18, and 28 </li> 
+                          <li>node 28 forward request to node 1  </li> 
+                      </ul>
+	                    
+							    </div>
+          </section>
+
+          <section data-transition="linear">
+              <h3>Unstructured peer-to-peer systems</h3>
+              <ul style="font-size:80%">
+                  <li>each node maintains ad hoc list of neighbors</li> 
+                  <li>overlay network resembles to a random graph</li> 
+                  <li>lists of neighbors are changed frequently </li>
+                  <li>different techniques for the search of data </li>
+                  <ul>
+                      <li> <b>Flooding</b> - passing request to all neighbors</li>
+                      <li> <b>Random walks</b> - randomly choosing neighbors</li>
+                  </ul>
+                  <li> in both cases  TTL (time to live) method is
+                      used to constraint number of hops </li>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>Hybrid architectures</h3>
+              <ul style="font-size:100%">
+                  <li>client-server solutions combined with decentralized solutions</li> 
+                  <ul>
+                      <li> Edge server systems</li>
+                      <li> Colaborative distributed systems</li>
+                  </ul>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>Edge server systems</h3>
+              <ul style="font-size:80%">
+                  <li>deployed on the Internet where servers are
+                      placed "at the edge" of the network  </li>
+                  <ul>
+                      <li><b>Internet Service Providers (ISP)</b> -
+                          boundary between enterprise networks and actual Internet </li>
+                      <li>
+                          used for optimization of content and application distribution
+                      </li>
+                  </ul>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>Edge server systems</h3>
+              <img src="myfiles/images/architectures/edge-server.png" />
+              <p>can be organized form the <b>origing server</b> and
+                  other servers replicating Web content </p>
+          </section>
+
+          <section data-transition="linear">
+              <h3>Colaborative distributed systems</h3>
+              <ul>
+                  <li>starting communiation is an issue</li> 
+                  <li>solution:</li>
+                  <ul>
+                      <li>during starting phase using <b>traditional client-server scheme</b></li>
+                      <li>after starting phase <b>fully decentralised schame</b> used for colaboration</li>
+                  </ul>
+
+                  <li>example: <b>BitTorrent</b> file sharing system</li> 
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>BitTorrent</h3>
+              <p>logic - end user downloads chunks of a file until he has the complete file </p> 
+              <img src="myfiles/images/architectures/bittorrent.png" />
+              <p>Question: how to ensure collaboration?</p>
+              <ul>
+                  <li><b>free riding</b> - majority of users only
+                      downloading but contributing nothing
+                  </li>
+
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>BitTorrent - organization</h3>
+              
+              <ul>
+                  <li>
+                      <b>torrent files</b> - located on the well their Web sites 
+                  </li>
+                  <li>
+                       torrent files contain links to <b>trackers</b>
+                  </li>
+                  <li>
+                       tracker has an account of active <b>nodes</b>
+                  </li>
+                  <li>
+                      active nodes - nodes which are downloading the file, as well
+                  </li>
+                  <li>
+                     simple rule for colaboration 
+                      <ul>
+                          P can decide to <b>decrease</b> the rate at which it sends data to Q
+                          if Q is downloading more than it is uploading
+                      </ul>
+                  </li>
+                  
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>BitTorrent - organization cont.</h3>
+              
+              <ul>
+                  <li>
+                     generally only one tracker per file 
+                  </li>
+                  <li>
+                      tracking functionality is minimalized to <b>one-time provisioning</b>
+                      of peers.
+                  </li>
+                  <li>
+                      trackers provides only part of all downloading nodes
+                  </li>
+                  <li>
+                      <b>swarm</b> - complete set of downloading nodes
+                  </li>
+                  <li>
+                      <b>neighbor set</b> - subset of swarm with whom node collaborates is called   
+                  </li>
+                  <li>
+                      neighbor set periodically updated by contacting the tracker 
+                      <ul>
+                          <li>when new peer joins the swarm</li>
+                      </ul>
+                  </li>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>BitTorrent - organization cont.</h3>
+              
+              <ul>
+                  <li>
+                      <b>seeder</b> - node which has all chunks of file
+                      and continues to participate in its swarm
+                  </li>
+                  <li>
+                      <b>leechers</b> - all others in the swarm
+                  </li>
+                  <li>
+                      <b>pieces</b> - equaly sized chunks, the file is divided in 
+                     - typically 256 Kbyte
+                  </li>
+                  <li>
+                      <b>block</b> - unit of data transfer between peers 
+                      - typically 16 Kbyte
+                  </li>
+                  <li>
+                      <b>potential set</b> - neighbor B belongs to potential set of node A if it
+                      has nodes that A does not have, and vice versa - important for trading
+                  </li>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>BitTorrent - downloading phases</h3>
+              
+              <ul>
+                  <li>
+                     <mark>Bootstrap phase</mark> 
+                     <ul>pieces get through mechanisam of optimistic unchoking </ul>
+                  </li>
+                  <li>
+                      <mark>Trading phase</mark>
+                      <ul>there are always peers with whom node can trade blocks </ul>
+                  </li>
+                  <li>
+                      <mark>Last download phase</mark>
+                      <ul>
+                          <li>potential set has dropped to zero</li>
+                          <li>node dependent on newly arriving peers</li>
+                      </ul>
+                  </li>
+                  <!--neighbor set changed involving the tracker -->
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>BitTorrent - downloading phases </h3>
+              <img src="myfiles/images/architectures/bittorrent-phases.png" style="width:55%"/>
+              <p>developement of the potential set size relative to the neighborhood size</p> 
+          </section>
+<!--
+          <section style="font-size: 1.2em;">
+              <h2 style="padding-bottom: 25px;">Thank you!</h2>
+          </section> 
+-->
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+          { src: 'plugin/math/math.js', async: true }
+				],
+          // Add the current slide number to the URL hash so that reloading the
+	        // page/copying the URL will return you to the same slide
+	        hash: false,
+				  controls: true,
+				  progress: true,
+				  history: true,
+          touch:true, 
+				  slideNumber: true,
+
+	        // The "normal" size of the presentation, aspect ratio will be preserved
+	        // when the presentation is scaled to fit different resolutions. Can be
+	        // specified using percentage units.
+	        width: 960,
+	        height: 700,
+
+			});
+		</script>
+	</body>
+</html>
