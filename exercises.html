@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Distributed systems</title>
+    <meta name="author" content="Petko Rutešić">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/distrib_beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		    <script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+
+          <section data-transition="linear">
+              <h3> ssh (Secure Shell) </h3>
+              <uli style="font-size:80%">
+                  <li>cryptographic network protocol</li>
+                  <li>used for operating network services securely over unsecured network </li>
+                  <li>important to cloud computing </li>
+                  <ul>
+                      <li>avoiding exposing a cloud-based virtual machines directly on the internet</li>
+                  </ul>
+                  <li>Typically used for: </li>
+                  <ul>
+                      <li>romote command-login and execution </li>
+                  </ul>
+                  <li> standart TCP port for SSH is <b>22</b></li>
+                  <li> ssh sends encrypted messages and doesn't disclose passwords in plaintext </li>
+                  <li> however files could be maybe decrypted by NSA as Snowden's case shows (source Wikipedia) </li>
+              </ul>
+          </section>
+
+
+          <section data-transition="zoom">
+              <h3> ssh - generating keys </h3>
+              <ul>
+                  <li> ssh-keygen </li>
+                  <li>populating directory with public/private key pair</li>
+                  <li><b>id_rsa</b> - file in which private key is by default stored  </li>
+                  <li><b>id_rsa.pub</b> - file in which public key is stored  </li> 
+                  <li>private key is never transferred through the network during authentication</li>
+                  <li>SSH has to ensure that the person offering the public key also owns the private key</li>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3> using ssh  </h3>
+              <ul>
+                  <li>The command syntax is as follows:</li>
+                  <ul>
+                      <li>ssh username@ip.address</li>
+                  </ul>
+                  <li>In our case it will be, for instance:</li>
+                  <ul>
+                      <li>ssh ubuntu@142.72.192.31</li>
+                  </ul>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3>ssh on windows  </h3>
+              <ul>
+                  <li>OpenSSH</li>
+                  <li>Cygwin</li>
+                  <li>PuTTY</li>
+              </ul>
+          </section>
+
+		      <section data-transition="linear"> 
+              <h4>SCP(Secure copy protocol)</h4>
+             <ul>
+                 <li>used to copy files and folders from one machine to another using SSH</li>
+                 <li> main syntax </li>
+                 <ul>
+                     <li> scp username:ip_addres_a:/path/to/file username@ip_addres_b:/path/to/destination</li> 
+                 </ul>
+
+                 <li>syntax for transferring file from local machine to remote machine</li>
+                 <ul style="font-size:80%">
+                     <li><b>scp /path/to/file username@10.0.0.165:/home/username/</b></li>
+                 </ul>
+
+             </ul>
+         </section>
+
+
+         <section data-transition="linear"> 
+             <h4>ICMP (Internet control message protocol) </h4>
+             <ul>
+                 <li> error-reporting protocol </li> 
+                 <li>supporting protocol in the Internet protocol suite (TCP/IP)</li> 
+                 <li> <b>ping</b> and <b>traceroute</b> uses ICMP packets </li>
+                 <li> all network-connected devices can process ICMP messages</li>
+             </ul>
+
+         </section>
+
+         <section data-transition="linear"> 
+             <h4>Computer networking utilities </h4>
+             <ul style="font-size:80%">
+                 <li><b>ping</b> ping tests the reachability of a host</li>
+                 <ul>
+                     <li>ping 10.0.0.1</li>
+                     <li> <b>ping</b> uses ICMP packets </li>
+                 </ul>
+
+                 <li> <b>netcat</b> - useful tool for scanning remote system ports</li>
+                 <ul>
+                     <li>uses TCP or UDP protocols </li>
+                     <li>examples</li>
+                     <ul>
+                         <li>nc google.com 443</li>
+                         <li>nc 10.0.0.2 22</li>
+                     </ul>
+                     <li> can be used to perform http requests:</li>
+                         <li>printf "GET /hypertext/WWW/TheProject.html HTTP/1.0\r\nHost:
+                             info.cern.ch\r\n\r\n" | nc info.cern.ch 80nc 10.0.0.2 22</li>
+                 </ul>
+                 <li> <b>nmap</b> - useful tool used by system and network administrators</li>
+                 <ul>
+                     <li>nmap -p 80 -sT google.com</li>
+                 </ul>
+             </ul>
+         </section>
+
+
+         <section data-transition="linear"> 
+             <h4>FTP (File Transfer Protocol)</h4>
+
+                <li> uses two separate TCP connectons (control and data connections) </li>
+                <li> way of exchanging files between client and server</li>
+                <li> FTP clients provide easy to use graphics user interface</li>
+                 
+             </ul>
+         </section>
+
+         <section data-transition="linear"> 
+             <h4>Examples of FTP applications</h4>
+             <ul>
+                 <li><b>Mac</b></li>
+                 <ul>
+                     <li>CyberDuck, FileZilla</li>
+                 </ul> 
+                 <li><b>Windows</b></li>
+                 <ul>
+                     <li>WinSCP, Free FTP</li>
+                 </ul> 
+                 <li><b>Linux</b></li>
+                 <ul>
+                     <li>FileZilla, CrossFTP</li>
+                 </ul>                
+             </ul>
+         </section>
+
+
+
+              
+          <section style="font-size: 1.2em;">
+              <h2 style="padding-bottom: 25px;">Thank you!</h2>
+          </section> 
+
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				],
+          // Add the current slide number to the URL hash so that reloading the
+	        // page/copying the URL will return you to the same slide
+	        hash: false,
+				  controls: true,
+				  progress: true,
+				  history: true,
+          touch:true, 
+				  slideNumber: true,
+
+	        // The "normal" size of the presentation, aspect ratio will be preserved
+	        // when the presentation is scaled to fit different resolutions. Can be
+	        // specified using percentage units.
+	        width: 960,
+	        height: 700,
+
+			});
+		</script>
+	</body>
+</html>

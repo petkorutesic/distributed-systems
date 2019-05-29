@@ -1,0 +1,536 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Distributed systems</title>
+    <meta name="author" content="Petko Rutešić">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/distrib_beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		    <script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+          <section class="grid3" >
+					    <div class="container">
+						      <div class="col">
+							        <!-- Remove logo--full class to only show brand mark -->
+						      
+							        <h2>Distributed systems</h2>
+
+							        <h3>Processes</h3>
+							    </div>
+						  </div>
+				  </section>
+
+          <section data-transition = "linear" >
+							        <h3>Processes</h3>
+
+                      <p><b>Process</b> - program in execution </p>
+                      <ul style="font-size:80%">
+                          <li>
+                              management and scheduling of processes - important tasks for an operating systems
+                          </li>
+                          <li>
+                              besides management and scheduling distributed systems have other issues
+                          </li>
+                          <li>
+                              <b>threads</b>  - play a crucial role in obtaining performance
+                              in  multicore and multiprocessor environments
+                          </li>
+                          <li>
+                              <b>virtualization</b>  - plays a significant role for concurrency
+                              by allowing entire environment (including the operating system) to
+                              work independently
+                          </li>
+                          <li>
+                              Process migration or code migration helps
+                              achieving scalability in distributed systems.
+                          </li>
+                      </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+						          
+							        <h3>Processes</h3>
+
+                      <ul>
+                          <li>question: How operating system executes a program?</li>
+                          <li><b>virtual processor</b> - one created for each programm </li>
+                          <li><b>process table</b> - keeps track of these virtual processors </li>
+
+                          <ul>
+                              <li>
+                                  storing <b>process context</b> containing entries for storing CPU
+                                  register values, memmory maps, open files, privileges, etc.
+                              </li>
+                              <li>
+                                  operating system takes great care to encore that processes don't
+                                  affect each other in an unexpected way
+                              </li>
+                          </ul>
+
+                         
+                      </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+							<h3>Threads</h3>
+              <ul>
+                  <li>
+                     Concurrency transparency using processes is costly 
+                  </li>
+                  <li>
+                      Threads are solutions for achieving concurrency with lower overhead 
+                  </li>
+                  <li>
+                      Thread system maintains only minimal information to allow CPU to be
+                      shared by several threads
+                  </li>
+                  <li>
+                      allowing blocking system calls without blocking entire process
+                      in which thread is running.
+                  </li>
+              </ul>
+				  </section>
+
+
+
+          <section data-transition = "linear" >
+						  
+							<h3>Threads</h3>
+              <ul>
+                  <li>
+                      implementing of threads at the  user level
+                  </li>
+                  <ul>
+                      <li>
+                          drawback - many-to-one threading model  
+                          multiple threads mapped to a single schedulable 
+                      </li>
+                      <li>
+                          invocation of blocking system blocks entire process
+                      </li>
+                  </ul>
+                  <li>
+                      implementing threads in the operating system kernel 
+                  </li>
+                  <ul>
+                      <li>
+                          drawback - switching thread contexts as expensive as 
+                          switching process contexts
+                  </ul>
+                  
+              </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+						  
+							<h3>Threads</h3>
+
+              <ul>
+                  <li>
+                      nevertheless using threads is only one way how to organize 
+                      simultaneous and concurrent executions
+                  </li>
+                  
+                  <li>
+                      applications are often constructed as a collection of concurrent  
+                      processes
+                  </li>
+                  <ul>
+                      <li>
+                          example - Apache Web Server
+                        </li>  
+                        <li> group of processes </li>
+                        <li> each process forms a single-threaded instantiation of the server </li>
+                  </ul>
+                  
+                  <li> thread programming difficult because the developer is fully responsible for
+                  managing concurrent access to shared data </li>
+                  <li> processes on the other hand have are protected by hardware support
+                      <li>access data outside allocated memory </li>
+                  
+              </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+							<h3>Threads in distributed systems</h3>
+              <ul>
+                  <li>
+                      way of making processes less blocking  
+                  </li>
+                  <li>
+                      expressing communications in the form of maintaining
+                      more logical connections at the same time 
+                  </li>
+                  <li>
+                     Multithreaded clients 
+                  </li>
+                  <li>
+                      Multithreaded servers 
+                  </li>
+              </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+							<h3>Threads - examples in Java</h3>
+              <ul>
+                  <li>
+                    Task1: Write a JAVA program  which starts 10 threads and prints their Ids from the run method.
+                  </li>
+                  <li>
+                      Task2: Runn the same task using Runnable implementation.
+                  </li>
+
+              </ul>
+				  </section>
+
+          <section data-transition="zoom">
+              <h3> Amdahl's law</h3>
+              <img src="myfiles/images/processes/amdahls_law.png" style="width:40%"/> 
+              <ul style="font-size:70%">
+                  <li>one CPU $$T_1 = t_s + T_p$$</li>
+                  <li>n CPUs $$T_n = t_s + \frac{T_p}{n} \ge t_s$$</li>
+                  <li> speedup $$S = \frac{T_1}{T_n} $$</li>
+                  <li>speedup $$S = \frac{1}{(1-p) + \frac{p}{N}}$$</li> 
+              </ul>
+              <p>theoretial speedup is limited to at most 20 times</p>
+              <!--$$T(s)=(1-p)T-\frac{p}{s}T$$--> 
+
+          </section> 
+
+          <section data-transition="zoom">
+              <h3> Virtualization</h3>
+              <ul>
+                  <li>middleware and applications are often more
+                      stable then hardware and low level software </li>
+                  <li>helps in porting the <mark>legacy interfaces</mark>
+                      to the <mark>new platforms</mark></li>
+                  <!--on the other side, increasing schift to server-side computing
+                       SaaS much software can be maintained for homogeneus platform, owned
+                       by the organization distributing softwares
+                  -->
+                  <li> diversity of platforms and machines reduced by running application
+                  on its own virtual machine</li>
+              </ul>
+          </section> 
+
+          <section data-transition="zoom">
+              <h3> Virtualization   (cont.)</h3>
+              <ul>
+                  <li>virtual machine possibly includes operating system and related libraries</li>
+                  <li>operating system runs on a common platform</li>
+                  <li>high degree of <b>portability</b> and <b>flexibility</b></li>
+                  <li> <b>portability</b> - perhaps, the most important reason why virtualization plays a big
+                      role in distributed systems </li>
+              </ul>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3> Types of interfaces</h3>
+              <ul style="font-size:80%">
+
+                  <li>various types of virtualization depend on various types of interfaces</li>
+                  <!-- i order to understand various types of virtualization we have to understand
+                  various types of interfaces -->
+              </ul>
+             <img src="myfiles/images/processes/interfaces.png" style="width:100%" />
+          </section> 
+
+
+
+          <section data-transition="zoom">
+              <h3> Types of interfaces</h3>
+              <ul style="font-size:80%">
+                  <li>four types of interfaces on three levels</li>
+                  <ol>
+                      <li><b>insturction set architecture(ISA)</b> set of machine instructions
+                     interface between hardware and software</li>
+                      <ul>
+                          <li>privileged instructions - run by the operating system</li>
+                          <li>general instructions - which are run by any program</li>
+                      </ul>
+                      <li> <b>system calls</b> offered by an operating system </li>
+                      <li><b>application programming interface (API)</b> -
+                          library calls (in many cases system calls are hidden by APIs) </li>
+                  </ol>
+                  <li> virtualization should mimic the behavior of these interfaces </li>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>Virtualization types</h3>
+          <!--              <img src="myfiles/images/processes/virtualization-types.png" style="width:100%" />-->
+              <img src="myfiles/images/processes/1.png" style="width:20%" />
+              <img src="myfiles/images/processes/2.png" style="width:20%" />
+              <img src="myfiles/images/processes/3.png" style="width:17%" />
+
+              <ol style="font-size:70%">
+
+                  <li><b>process virtual machine</b></li>
+                  <ul>
+                      Java Virtual Machine, Windows applications on Unix
+                  </ul>
+                  <li><b>native virtual machine monitor</b></li>
+                  <ul>
+                      directly implemented on the underlying hardware, guest operating systems
+                  </ul>
+                  <li><b>host virtual machine monitor</b></li>
+                  <ul>
+                      directly implemented on the underlying hardware, more priviledges than user-level application
+                  </ul>
+             </ol>
+
+          </section> 
+
+         
+
+          <section data-transition="zoom">
+              <h3> Virtualization in distributed systems</h3>
+              <ul style="font-size:80%">
+                  <li>most important application in cloud computing </li>
+                  <li>three types of services </li>
+                 <ul> 
+                     <li>Infrastructure-as-a-Service (IaaS) - basic infrastructure</li>
+                     <li>Platform-as-a-Service (PaaS) - system-level services</li>
+                     <li>Software-as-a-Service (SaaS) - actual applications</li>
+                 </ul>
+                  <li> virtualization has a key role in <b>IaaS</b></li>
+                  <li> renting virtual instead of physical machines </li>
+              </ul>
+          </section> 
+
+          <section data-transition="zoom">
+              <h3> Virtualization examples - EC2</h3>
+              <ul style="font-size:80%">
+                  <li> Amazon <b>Elastic Compute Cloud (EC2)</b> </li>
+                  <ul>
+                      <li>several networked virtual servers - basis of a distributed system</li>
+                      <li>available preconfigured <mark>machine images</mark>  <b>Amazon Machine Images(AMI)</b></li>
+
+                      <li>AMI example - LAMP image (Linux, Apache, MySQL, PHP) </li>
+                      <li> <i>launched</i> is called EC2 <mark>instance</mark> </li>
+                      <li> user hardly ever know where an instance is being executed</li>
+                      <!-- only Europe, Asia, South America etc. -->
+                  </ul>
+              </ul>
+          </section> 
+
+          <section data-transition="zoom">
+              <h3> Virtualization examples - OpenStack</h3>
+              <ul style="font-size:80%">
+                  <li>Open Stack - next generation of private cloud solution</li>
+                  <li>more flexibility to manage underlying infrastructure</li>
+                  <li> has brought together thousands of enterprises</li>
+                  <li>deployment of Open Stack is a challenging step -
+                      requires deep knowledge of <b>automation</b>,
+                      <b>orchestration</b> and <b>flexibility</b></li>
+                  <li> VMware, IBM, Red Hat, PayPal, eBay - some of big companies 
+                   having scalable cloud based on OpenStack</li>
+                  <li>completely <b>open cource</b> project </li>
+              </ul>
+          </section> 
+          
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+                  <div class ="header">
+                      <img src = "myfiles/images/processes/openstack-logo.jpg" style="width:20%; float: left; margin-right:1em" />
+                      <h3> OpenStack basics</h3>
+                  </div>
+                  <div class="content">
+                      <ul>
+                          <li>claud computing management platform</li>
+                          <li>one place for bare metal, virtual machines, and containers </li>
+                          <li>Why OpenStack?</li>
+                          <li>What does it mean to be open source?</li>
+                          <ul>
+                              <li>possibilities to contribute</li>
+                          </ul>
+                          <li>implementation - great deal in python</li>
+                          <li>OpenStack is a framework</li>
+                          <li>OpenStack has a loosely architecture </li>
+                          <!-- That's not a monolitic system -->
+                      </ul>
+                  </div>
+              </div>
+          </section>
+
+
+          <section data-transition="zoom">
+              <h3> Applications of OpenStack</h3>
+              <ul style="font-size:90%" >
+                  <li>CERN - one of the largest OpenStack clouds </li>
+                  <li>eCommerce - Walmart has e-commerce platform on the OpenStack</li>
+                  <li>Air companies  - American airlines uses OpenStack to deliver PaaS</li>
+                  <li><a href="https://www.openstack.org/user-stories" target="_blank"> OpenStack.org</a> to find various user stories </li>
+            </ul>
+          </section> 
+
+          <section data-transition="zoom">
+              <h3> OpenStack releases</h3>
+              <ul>
+                  <li>Every six months new release - all should be backward compatible</li>
+                  <li>release names</li>
+                  <li><a href="https://releases.openstack.org/" target="_blank">OpenStack release names</a></li>
+                  <ul>
+                     <li>Train, Stein, Rocky, Queens, Pike, Mitaka</li>
+                  </ul>
+                  <li><a href="https://docs.openstack.org/mitaka"><b>Mitaka</b></a> - is used in our examples </li>
+              </ul>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3> OpenStack - vendors  </h3>
+
+              <ul>
+                  <li>Private Cloud Distro</li>
+                  <ul>
+                      <li> Mirantis, Red Hat, SUSE, Ubuntu </li>
+                  </ul>
+                  <li>Private Cloud as a Service</li>
+                  <ul>
+                      <li>IBM Blue Box, Cisco, Rackspace </li>
+                  </ul>
+              </ul>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3> OpenStack - core services (main components) </h3>
+
+              <ul style="font-size:80%">
+                  <li><b>Horizon (Daschboard)</b>- web interface </li>
+                  <li><b>Keystone (Identity)</b>  - authentication (using specific tokens) </li>
+                  <li><b>Glance (image management)</b> -  already preinstalled and ready to run)</li>
+                  <li><b>Neutron - virtual networking</b> </li>
+                  <!-- Network layer has to connect all those components -->
+                  <li><b>Nova</b>  - calling peaces and put them toghether </li>
+                  <ul>
+                      <li>calling the hypervisor</li>
+                      <!--hypervisor (virtual machine monitor) is computer software, firmware or hardware
+                      which runs virtual machine-->
+                      <li>launching the image to instances</li>
+
+                  </ul>
+                  <li><b>Cinder (volume service)</b> - block storage volume- virtual machines
+                      are not persistent and here we have persistant data</li>
+                  <li><b>Swift  (object storage)</b> - that is file storage</li>
+              </ul>
+          </section> 
+
+
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+                  <div class ="header">
+                      <img src="myfiles/images/processes/horizon_mascot.jpg" style="width:15%; float: left; margin-right:1em"" />
+                      <h3> Dashboard (Horizon) - Web interface</h3>
+                  </div>
+                  <div class="content">
+                      <img src="myfiles/images/processes/dashboard.png" style="width:100%; float: down" />
+                  </div>
+              </div>
+          </section> 
+
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+                  <div class ="header">
+                      <img src="myfiles/images/processes/keystone_mascot.jpg" style="width: 15%; float: left; margin-right:1em" />
+                      <h3>Identity (Keystone) </h3>
+                  </div>
+                  <div class="content">
+                    <ul>
+                      <li>Centralized catalog of identity services</li>
+                      <a href="https://github.com/openstack/keystone" > Keystone on github </a>
+                      <li> whenever using some component we have to be authenticated</li>
+                      <li>many authentication options</li>
+                      <ul>
+                          <li>user, password</li>
+                          <li>tokens</li>
+                      </ul>
+                  </ul>
+                  </div>
+              </div>
+          </section> 
+
+          <section data-transition="linear">
+              <h3> How to deploy the workload </h3>
+
+              <ul>
+                  <li>Ansible - automatic deployment</li>
+                  <li>Learning OpenStack - book </li>
+                  <li>OpenStack for architects - book </li>
+                  <li>The OpenStack Cloud Computing Cookbook </li> 
+              </ul>
+          </section> 
+
+
+
+<!--
+          <section style="font-size: 1.2em;">
+              <h2 style="padding-bottom: 25px;">Thank you!</h2>
+          </section> 
+-->
+
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+  				{ src: 'plugin/math/math.js', async: true }
+				],
+          // Add the current slide number to the URL hash so that reloading the
+	        // page/copying the URL will return you to the same slide
+	        hash: false,
+				  controls: true,
+				  progress: true,
+				  history: true,
+          touch:true, 
+				  slideNumber: true,
+
+	        // The "normal" size of the presentation, aspect ratio will be preserved
+	        // when the presentation is scaled to fit different resolutions. Can be
+	        // specified using percentage units.
+	        width: 960,
+	        height: 700,
+
+			});
+		</script>
+	</body>
+</html>
