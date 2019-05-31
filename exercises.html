@@ -152,7 +152,7 @@
                 <li> uses two separate TCP connectons (control and data connections) </li>
                 <li> way of exchanging files between client and server</li>
                 <li> FTP clients provide easy to use graphics user interface</li>
-                 
+
              </ul>
          </section>
 
@@ -174,6 +174,28 @@
              </ul>
          </section>
 
+         <section data-transition="linear"> 
+             <h4>Configuring python on an instance</h4>
+             <p>python installation</p>
+             <pre><code class="hljs html" style="word-wrap: break-word;">
+sudo apt-get update 
+sudo apt-get upgrade
+
+sudo apt-get install python3
+sudo apt-get install python-pip python-dev
+             </code></pre>
+         </section>
+
+
+         <section data-transition="linear"> 
+             <h4>Ansible installation</h4>
+             <pre><code class="hljs html" style="word-wrap: break-word;">
+
+sudo pip install python-openstackclient
+sudo pip install shade 
+sudo apt-get install ansible
+             </code></pre>
+         </section>
 
 
               
