@@ -1,0 +1,536 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Distributed systems</title>
+    <meta name="author" content="Petko Rutešić">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/distrib_beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		    <script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+          <section class="grid3" >
+					    <div class="container">
+						      <div class="col">
+							        <!-- Remove logo--full class to only show brand mark -->
+						      
+							        <h2>Distributed systems</h2>
+
+							        <h3>Coordination</h3>
+							    </div>
+						  </div>
+				  </section>
+
+          <section data-transition = "linear" >
+							        <h3>Coordination</h3>
+
+                      <p><b>Coordination</b> has a goal to manage the interactions and dependencies between activities in a distributed system </p>
+                      <ul style="font-size:80%">
+
+                          <li>
+                          How processes cooperate and synchronize with one another?
+                          </li>
+                          <li>
+                             It's important that all processes don't a shared resource simultaneously  
+                          </li>
+                          <li>
+                             Processes should agree on the ordering of events. 
+                          </li>
+                          <ul>
+                              <li>
+                                  Whether process A sent the message M1 before process B sent the message M2 
+                              </li>
+                          </ul>
+                          <li>
+                              <b>process synchronization</b> -  ensuring that one process waits for another to complete it's operation 
+                          </li>
+                      </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+							        <h3>Clock synchronization</h3>
+
+                      <ul style="font-size:80%">
+                          <li>In a centralized system time is definitive and reliable</li>
+                          <ul>
+                              <li>example with a <b>make</b> program in linux which relies on time</li>
+                          </ul>
+                          <li>in a distributed system this could be a big problem </li>
+
+                          <li>
+                              There ara many activities which have to be carried out in a specific order
+                          </li>
+                          <ul>
+                              <li>
+                                  update has to be done in an exact order
+                              </li>
+                              <li>
+                                 application domains such as financial brockerage, security auditing, collaborative sensing 
+                              </li>
+                          </ul>
+                          <li>
+                              It could be differentiated two types of time:
+                          </li>
+                          <ul>
+                              <li>
+                                  <mark>Physical time</mark>
+                              </li>
+                              <li><mark>Logical time</mark></li>
+                          </ul>
+                      </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+							<h3>Physical time</h3>
+              <ul>
+                  <li>
+                     usually all CPUs have <b>computer timer - clock</b>
+                  </li>
+                  <ul>
+                     <li> usually a precisely machined <b>quartz crystal</b> which
+                      oscillate at well defined frequency</li>
+                     <li>
+                         it's not possible to guarantee that crystals in different
+                         computers run at exactly the same frequency
+                     </li>
+                     <li>
+                         <b>clock skew</b> - difference in time values between different CPU's 
+                     </li>
+                  </ul>
+                  <li>
+                      How to synchronize clocks?
+                  </li>
+              </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+						  
+							<h3>Physical time - cont.</h3>
+              <ul style="font-size:80%">
+                  <li>
+                      <mark>mean solar second</mark>
+                  </li>
+                  <ul>
+                      <li>
+                          measuring large number of days, taking the average and dividing by 86400
+                      </li>
+                  </ul>
+                  <li>
+                      <mark>Atomic second</mark> 
+                  </li>
+                  <ul>
+                      <li>
+                         time it takes the cesium 133 atom to make exactly 9,192,631,770 transitions</li>
+                      <li>
+                          Atomic second equals to mean solar second in 1958 when atomic clock has started - that's why
+                          we have this specific number 
+                      </li>
+                      <li>
+                          <b>(TAI) -International Atomic Time</b> mean time of laboratories which have atomic clocks.  
+                      </li>
+                  </ul>
+                  <li>
+                      <mark>(UTC) -Universal Coordinated Time</mark> - worldwide standard
+                  </li>
+                  <ul>
+                      <li>
+                          time which is generated from TAI and to which periodically
+                          <b>leap seconds</b> are added to adopt to the average solar day
+                      </li>
+                  </ul>
+                  
+              </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+						  
+							<h3>Clock synchronization</h3>
+              <ul style="font-size:90%">
+                  <li>
+                    if one machine has UTC reciever (central time server) 
+                  </li>
+                  <ul>
+                      <li>then other machines (clients) have to be synchronized to the server's time</li>
+                  </ul>
+                  <li>
+                      if there is no UTC reciever then the goal is to keep time on machines as closer as posible
+                  </li>
+                  <li>
+                      <b>Network Time Protocol (NTP)</b> 
+                 </li>
+                  <ul>
+                      <li>
+                         machines are devided into strata  
+                        </li>  
+                        <li> server with reference clock such as UTC receiver
+                            is <b>stratum-1 server</b> (clock operates at stratum 0) </li>
+                        <li> A will adjust time to B only if A is on the higher
+                            stratum level than B</li>
+                        <li>NTP is known to achieve worldwide accuracy in the range 1-50 msec </li>
+                  </ul>
+                   <!--   Google's transaction system with accuracy in the range 6ms  -->
+              </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+							<h3>Logical time (logical clocks)</h3>
+              <ul style="font-size:80%">
+                  <li>
+                      as in the example with <em>make</em> it would be adequate to outdate
+                      file.o by a new version of file.c 
+                  </li>
+                  <li>
+                      processes should agree on the <b>order in which events
+                      occur"</b> [Lamport-1978] and not exactly on the time </li>
+                  <li>
+                    ordering of events based on two facts  
+                  </li>
+                  <ul>
+                      <li> if events occured on the same process then they occurred
+                      in the order in which that proces observes them</li>
+                      <li> if a message is sent between processes, the event of
+                      sending occurred before the event of receiving the message</li>
+                  </ul>
+                  <li>
+                      Lamport called this <em>partial ordering</em> relation
+                      <b>happens-before</b>
+                  </li>
+              </ul>
+				  </section>
+
+          <section data-transition="zoom">
+              <h3> Lamport logical clocks</h3>
+              <ul>
+                  <li>happens-before relation - <mark>(a -> b)</mark> is read <em>event a
+                      happens before event b </em> </li>
+                  <li>can be observed directly in two situations:</li>
+                  <ol>
+                      <li> a and b are events in the same process and a occurs
+                          before b than <b>a -> b</b> is <b>true</b></li>
+                      <li> if a is a message sent by one process, and b is the
+                          event of the message being received by another process,
+                          then <b>a -> b </b>is also <b>true</b></li>
+                  </ol>
+                  <li>
+                      message cannot be received before it's sent and
+                      not even at the same time (since transmission takes time)
+                  </li>
+              </ul>
+          </section> 
+
+          <section data-transition="zoom">
+              <h3> Lamport logical clocks (cont.)</h3>
+              <ul>
+                  <li> <em>happens-before</em> is a transitivite relation</li>
+                  <ul>
+                      <li> if a -> b and b -> c then a -> c </li>
+                  </ul>
+
+                  <li>if x and y happen in different processes and don't exchange
+                  meassages even (not even indirectly via third parties) then
+                  neither is x -> y nor y -> x (events are said to be <b>concurrent</b>) </li>
+
+                  <li>when we need to assign timestamps to events (<b>event counters</b>) - 
+                  event a is assigned time C(a) , and should hold:</li>
+                  <ul>
+                      <li> if a -> b then C(a) < C(b) </li>
+                  </ul>
+                  <li> the clock timestamp (event counter) must always go forward when adjusted</li>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3> Lamport algorithm for assingning timestamps</h3>
+              <ul style="font-size:80%">
+                  <li> Each process $P_i$ maintains a local counter $C_i$
+                      and adjusts that counter:</li>
+                  <ol>
+                      <li> for each new event that takes place in $P_i$,
+                          $C_i$ is incremented by 1  </li>
+                      <li> each time a message <b>m</b> is sent by process $P_i$,
+                          the message receives a timestamp $ts(m) =C_i$</li>
+                      <li> whenever a message m is received by a process $P_j$,
+                          $P_j$ adjusts its local counter to $max\{ts(m), C_j\}$,
+                          then executes 1 before passing m </li>
+                  </ol>
+
+                  <li>if it still occurs that two events happen at the same time
+                  this is done by breaking ties through process IDs and then we have
+                  pairs</li>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3> Lamport algorithm - example</h3>
+              <ul style="font-size:80%">
+
+                  <li>three processes with event counters</li>
+              </ul>
+             <img src="myfiles/images/coordination/lamport-1.png"
+                  style="margin-right:4em; width:40%" />
+
+             <img src="myfiles/images/coordination/lamport-2.png" style="width:40%" />
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3> Logical clocks - implementation</h3>
+              <ul style="font-size:100%">
+                  <li>Adjustments are implemented in middleware</li>
+              </ul>
+
+              <img src="myfiles/images/coordination/clocks-middleware.png" style="width:100%" />
+          </section> 
+
+          <section data-transition="linear">
+              <h3>Total ordering multicast</h3>
+                  <li>issues with replicated resources in the absence of synchronization</li>
+                  <ul>
+                      <li> database is replicated and a customer has 1000$ on its account</li>
+                      <!--replicated to improve query performance-->
+                      <li>two processes have to update the same account </li>
+                      <li>the <b>first</b> increases the account with 1% interest and the <b>second</b> adds
+                          100$ to the account </li>
+                      <li> if the order of execution is first then second process
+                          -  final balance is 1110$ </li>
+                      <li> if the order of execution is second then first process 
+                          - final balance is 1111$ </li>
+                  </ul>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>Total ordering multicast - problem</h3>
+              <img src="myfiles/images/coordination/total-multicast.png" style="width:100%" />
+              <ul style="font-size:70%">
+                  <li>from the consistency point of view it is not important which
+                      order is followed</li>
+                  <li>it is important that both copies should be the same</li>
+                  <li>solution - multicast operation by which all messages are
+                  delivered in the same order to each receiver</li>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>Total ordering multicast - solution</h3>
+              <ul style="font-size:93%">
+                  <li>Lamport's logical clocks can be used to implement total
+                  ordering multicast</li>
+                  <li>each message is timestamped with the current (logical) time
+                  of it's sender</li>
+                  <li>when process receivs the message it put it into a local
+                      queue, ordered according to its timestamp</li>
+                  <li> receiver multicast an acknowledgement to other processes.</li>
+                  <li> goal is that all processes have the <b>same copy</b> of the
+                      <b>local queue</b></li>
+                  <li>message is delivered to application when it's at the head
+                      of the queue and has acknowledgement by each other process
+              </ul>
+          </section> 
+
+          <!--
+          <section data-transition="linear">
+              <h3>Example</h3>
+              <img src="myfiles/images/coordination/lamport-example1.png" style="width:70%" />
+          </section> 
+          -->
+
+          <section data-transition="zoom">
+              <h2> Socket programming</h2>
+              <ul style="font-size:80%">
+                  <li>many distributed systems built on top of the simple
+                      <b>message-oriented</b> model offered by the transport layer  </li>
+                  <li><mark>socket</mark> is conceptually a communication end
+                      point </li>
+                  <ul>
+                      <li> to which an application can write data to be sent over
+                          an underlying network</li>
+                      <li> from which incoming data can be read</li>
+                  </ul>
+                  <li> socket makes an abstraction over the actual port that is used
+                  by the local operating system for a specific transport protocol</li>
+              </ul>
+          </section> 
+
+          <section  data-transition="linear">
+              <h3>Socket operations for TCP/IP</h3>
+              <ul>
+                  <table style="font-size:80%">
+                      <tr>
+                          <th>Operation</th>
+                          <th>Description</th>
+                      </tr>
+                      <tr>
+                          <td>socket</td>
+                          <td>Create a new communication end point</td>
+                      </tr>
+                      <tr>
+                          <td>bind</td>
+                          <td>Attach a local address to a socket</td>
+                      </tr>
+                      <tr>
+                          <td>listen</td>
+                          <td>tell operating system what the maximum number of
+                              pending connection requests should be</td>
+                      </tr>
+                      <tr>
+                          <td>accept</td>
+                          <td>Block caller until a connection request arrives</td>
+                      </tr>
+                      <tr>
+                          <td>connect</td>
+                          <td>Actively attempt to establish a connection</td>
+                      </tr>
+                      <tr>
+                          <td>send</td>
+                            <td>Send some data over the connection</td>
+                      </tr>
+                      <tr>
+                          <td>receive</td>
+                          <td>Receive some data over the connection</td>
+                      </tr>
+                      <tr>
+                          <td>close</td>
+                          <td>Release the connection</td>
+                      </tr>
+
+                  </table>
+              </ul>
+          </section>
+
+
+          <section data-transition="linear">
+              <h3>Connection-oriented communication using sockets</h3>
+              <img src="myfiles/images/coordination/comm-sockets.png" style="width:100%" />
+              <ul style="font-size:70%">
+                  <li></li>
+
+              </ul>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3> Java Sockets - server side</h3>
+
+          <pre><code class="hljs java" style="font-size:70%; word-wrap: break-word;">
+public class HelloServer {
+    public static void start(int port)){
+        serverSocket = new ServerSocket(port);
+        clientSocket = serverSocket.accept();
+
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        String hellogreeting = in.readLine();
+            if ("Hello server".equals(hellogreeting)) {
+                out.println("Hello Client");
+            }
+            else {
+                out.println("Unknown greeting");
+            }
+    }
+}
+          </code></pre>
+          </section> 
+
+          <section data-transition="linear">
+              <h3> Java Sockets - client side</h3>
+
+              <pre><code class="hljs java" style="font-size:70%; word-wrap: break-word;">
+public class HalloClient {
+    public void contactServer(String ip, int port) {
+        clientSocket = new Socket(ip, port);
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        out.println("Hello server");
+        String resp = in.readLine();
+        System.out.println(resp);
+}
+              </code></pre>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3> Socket example from the oracle documentation </h3>
+
+              <ul>
+                  <li><a href="https://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html"
+                      target="_blank">
+                      KnockKnock game </a></li>
+                  <li>3 classes:</li>
+                  <ul>
+                      <li>KnockKnockServer</li>
+                      <li>KnockKnockClient</li>
+                      <li>KnockKnockProtocol</li>
+                  </ul>
+              </ul>
+          </section> 
+<!--
+          <section style="font-size: 1.2em;">
+              <h2 style="padding-bottom: 25px;">Thank you!</h2>
+          </section> 
+-->
+
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+  				{ src: 'plugin/math/math.js', async: true }
+				],
+          // Add the current slide number to the URL hash so that reloading the
+	        // page/copying the URL will return you to the same slide
+	        hash: false,
+				  controls: true,
+				  progress: true,
+				  history: true,
+          touch:true, 
+				  slideNumber: true,
+
+	        // The "normal" size of the presentation, aspect ratio will be preserved
+	        // when the presentation is scaled to fit different resolutions. Can be
+	        // specified using percentage units.
+	        width: 960,
+	        height: 700,
+
+			});
+		</script>
+	</body>
+</html>
