@@ -1,0 +1,485 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Distributed systems</title>
+    <meta name="author" content="Petko Rutešić">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/distrib_beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		    <script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+          <section class="grid3" >
+					    <div class="container">
+						      <div class="col">
+							        <!-- Remove logo--full class to only show brand mark -->
+						      
+							        <h2>Distributed systems</h2>
+
+							        <h3>Communication</h3>
+							    </div>
+						  </div>
+				  </section>
+
+          <section data-transition="zoom">
+              <h2> Importance of communication</h2>
+              <ul style="font-size:80%">
+                  <li> Interprocess communication is an esential part of all distributed systems</li>
+                  <li>Exchange of information is based on low-level message passing</li>
+                  <li>What kind of exchange is used for nondistributed platforms?</li>
+
+                  <li>Communication must adhere to specific rules </li>
+                  <li><mark><b>communication protocol</b></mark> - a set of rules according to which
+                      communication is carried out</li>
+                  <li> protocol is said to provide <b>communication services</b> </li>
+                  <li>two types of communication services: </li>
+                  <ul>
+                      <li><b>connection-oriented</b> service - connection is
+                          established bofore exchanging messages and specific parameters
+                      of the used protocol , after exchange connection is terminated</li>
+                      <li><b>connectionless</b> service - no setup in advance is needed</li>
+                  </ul>
+                  <li> protocols are easily explained if structured into layers </li>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h2>OSI reference model</h2>
+                  <img src="myfiles/images/communication/osimodel2.svg" style="width:70%" />
+                  <ul style="font-size:70%">
+                      <li>ISO <b>OSI model</b> (Open Systems Interconnection Reference Model) </li>
+                      <li>OSI <b>is only </b> refernce model and protocols developed
+                          for OSI model have <b>never</b> been <b>widely used</b></li>
+                      <li>however OSI model is useful for understanding computer networks</b></li>
+                  </ul>
+          </section>
+
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+						      <div class="header" >
+                      <h3>OSI model</h3>
+						      </div>
+						      <div class="content">
+                      <ul style="font-size: 70%">
+                          <li><mark>application layer</mark> - e-mail protocols,
+                              web access protocols, file transfer protocols   </li>
+                          <li><mark>presentation layer</mark> - how data are represented
+                          independently of the hosts on which applications are running</li>
+
+                          <li><mark> session layer</mark> - support for sessions
+                              between applications,synchronization facilities.
+                              Inserting checkpoints, which is useful in case of crash   </li>
+                          <li><mark> transport layer</mark> - protocols for directly
+                              supporting applications (reliable communications, support of real
+                              time streaming of data). Messages received from the upper
+                              level are breaked into smaller pieces suitable for the
+                              transmission. How many packets are received, which have to be
+                              retransmitted. <b>TCP</b> , <b>UDP</b>, ...
+                          </li>
+
+                          <li><mark> network layer</mark> - protocols for
+                              <b>routing</b> a message through a computer network and
+                              handling congestions, <b>IP</b> (Internet protocol) is the most
+                              widely used network protocol</li>
+                          <li><mark> data link layer</mark> - detecting and possibly
+                              correcting transmission errors, computing <b>checksum</b>
+                              and adding it to the frame </li>
+                          <li><mark> physical layer</mark> - concerned about
+                              transmitting 0s and 1s. How many bits per second can be sent. Meaning
+                              and number of pins in network connectors, etc...</li>
+                      </ul>
+							    </div>
+                  <div class="image">
+                      <img src="myfiles/images/communication/osimodel1.svg" style="height:80%" />
+				          </div>
+              </div>
+          </section>
+
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+						      <div class="header" >
+                      <h3>Internet protocol suite</h3>
+						      </div>
+						      <div class="content">
+                      <ul style="font-size: 70%">
+                          <p>standard network model used for internet which has fewer
+                              rigidly defined layers then OSI, easier fit for
+                              real-world protocols</p>
+                          <li><mark>application layer</mark> - layer in which high level
+                              protocols operate such as e-mail protocols,
+                              web access protocols, file transfer protocols (HTTP,
+                              HTTPS, FTP, IMAP, POP, SSH, SMTP, Telnet,...)     </li>
+                           <li><mark> transport layer</mark> -  provides a channel for the
+                               communicaton needs of applications
+                               (<b>TCP</b> , <b>UDP</b>, DCCP,  ...)
+                          </li>
+
+                          <li><mark> internet layer</mark> - provides uniform networking
+                              interface for exchanging datagrams,  protocols for
+                              <b>routing</b> a message through a computer network.
+                              <b>IP</b> (Internet protocol) is the primary protocol in this 
+                              scope (IPv4, IPv6, ICMP, ...)
+                          </li>
+                          <li><mark> link layer</mark> - includes protocols used to
+                              describe local network topology and corresponds to
+                              corresponds to the physical and data link layers of OSI model
+                              MAC (Ethernet,  Wi-Fi,  DSL, ISDN,  FDDI),...
+                          </li>
+                      </ul>
+							    </div>
+                  <div class="image">
+                      <img src="myfiles/images/communication/internet-protocol-suite.svg"
+                           style="height:80%" />
+				          </div>
+              </div>
+          </section>
+
+          <section data-transition="linear">
+              <h2>Middleware protocols</h2>
+              <ul style="font-size:80%">
+                  <li> Middleware should be mostly applications which are mostly in the
+                      application layer</li>
+                  <li> general purpose protocols offered for other applications </li>
+
+                  <li> <b>DNS</b> Domain Name System - distributed service used
+                  to lookup a network addresses associated with a name</li>
+                      <ul>
+                          <li>translates more readable domain names to IP addresses </li>
+
+                          <li>for instance www.dhbw.de - > 141.31.235.50
+                          you can try <b>ping dhbw.de</b></li>
+                          <li>Example Google Public DNS offered to internet users
+                              worldwide - IP addresses 8.8.8.8 and 8.8.4.4 are used
+                              for IPv4 service, </li>
+                      </ul>
+
+                      <li> authentication and authorization protols could be
+                          example of middleware protocols</li>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2>UDP (User Datagram Protocol)</h2>
+              <ul>
+                  <li>UDP is a simple transport protocol which extends host-to-host
+                      delivery of packets
+                      <ul>
+                          <li><b>connectionless</b> protocol which belongs
+                              to the transport layer</li>
+                      </ul>
+                  <li>abstract <b>port numbers</b> used to identify which processes communicate </li>
+                  <ul>
+                      <li> port numbers hold for a single host</li>
+                      <li> that's why pair <b>port, host-ip</b> is used for demultiplexing in UDP</li>
+                  </ul>
+                  <li>unreliable, unordered delivery
+              </ul>
+          </section>
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+						      <div class="header" >
+                      <h3>UDP protocol</h3>
+						      </div>
+						      <div class="content">
+                      <ul style="font-size: 90%">
+                          <p>UDP datagram (packet) consists of the following fields</p>
+                          <li><mark>source port</mark> </li>
+                          <li><mark> destination port</mark></li>
+                          <li><mark>length</mark> of UDP segment including header</li>
+                          <li><mark>checksum</mark> has a goal to detect "errors"
+                              (flipped) bits in segments</li>
+                          <li><mark> data </mark> application data (payload)</li>
+                          </li>
+                          <li> Why to use UDP protocol?</li>
+                          <ul>
+                              <li>no connection (no delay)</li>
+                              <li>no connection state at sender (reciever)</li>
+                              <li> small header size</li>
+                              <li> no congestion control</li>
+                          </ul>
+                      </ul>
+							    </div>
+                  <div class="image">
+                      <img src="myfiles/images/communication/udp-datagram.png"
+                           style="height:100%" />
+				          </div>
+              </div>
+          </section>
+
+
+          <section data-transition="linear">
+              <h2>TCP protocol</h2>
+              <ul>
+                  <li>TCP is a <b>connection-oriented</b> protocol which belongs
+                      to the transport layer</li>
+                      <ul>
+                          <li>connection is maintained from the beginning till
+                              the end of exchange</li>
+                          <li>handshaking - exchange of control messages - 
+                              sender, receiver state before data exchange </li>
+                          <ul>
+                              <li>to agree to establish connection </li>
+                              <li>to agree on connection parameters </li>
+                          </ul>
+                          <li>full duplex data- bi directional data flow
+                              in same connection </li>
+                      </ul>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2>TCP dataram</h2>
+
+                  <img src="myfiles/images/communication/tcp-datagram.png">
+          </section>
+
+          <section data-transition="zoom">
+              <h2> TCP datagram structure</h2>
+              <ul style="font-size:70%">
+                          <p>TCP datagram (packet) consists of the following fields</p>
+                          <li><mark>source port</mark> </li>
+                          <li><mark> destination port</mark></li>
+                          <li><mark> sequence number</mark></li>
+                          <li><mark> acknowledgement number </mark></li>
+                          <li><mark>flags</mark> indicating specific meaning of other fields </li>
+                          <li><mark>receive window</mark> size of the window that receiver is willing to receive</li>
+                          <li><mark>checksum</mark> has a goal to detect "errors"
+                              (flipped) bits in segments</li>
+                          <li><mark> options </mark> which are of variable size</li>
+                          <li><mark> data </mark> application data (payload)</li>
+                          </li>
+                          <li> Why to use TCP protocol?</li>
+                          <ul>
+                              <li>reliable data transfer - not received packets
+                                  are sent again</li>
+                              <li>flow control</li>
+                              <li>congestion control</li>
+                          </ul>
+                      </ul>
+              </ul>
+          </section> 
+          <section class="grid4" data-transition="linear">
+              <div class="grid-wrapper">
+						      <div class="header" >
+                      <h2> Sinergy of protocols (HTTP,FTP, TCP/IP, ...) </h2>
+ 						      </div>
+						      <div class="content">
+                      <ul style="font-size: 70%">
+                          <p>These protocols work together to enable web transfers</p>
+                          <li><b>HTTP</b> - Hyper Text Transfer Protocol is an appplication layer protocol</li> 
+                          <li><b>TCP</b> - is a transport layer protocol</li> 
+                          <li><b>IP</b> - is a network layer protocol </li> 
+
+                          <li>an <a href="https://www.quora.com/How-is-TCP-IP-related-to-HTTP" target="_blank"> analogy</a> for better explanation </li>
+                          <ul>
+                              <li>  IP could be thought of as a high-way </li>  
+                              <li>  TCP and UDP as different types of trucks</li>  
+                              <li>  HTTP, SMTP, FTP and other application protocols as a load that trucks transport</li>  
+                          </ul>
+                      </ul>
+							    </div>
+                  <div class="image">
+                      <img src="myfiles/images/communication/delivery-truck.png"
+                           style="height:100%" />
+				          </div>
+              </div>
+          </section>
+
+          <section data-transition="zoom">
+              <h2> Socket programming</h2>
+              <ul style="font-size:80%">
+                  <li>many distributed systems built on top of the simple
+                      <b>message-oriented</b> model offered by the transport layer  </li>
+                  <li><mark>socket</mark> is conceptually a communication end
+                      point </li>
+                  <ul>
+                      <li> to which an application can write data to be sent over
+                          an underlying network</li>
+                      <li> from which incoming data can be read</li>
+                  </ul>
+                  <li> socket makes an abstraction over the actual port that is used
+                      by the local operating system for a specific transport protocol</li>
+              </ul>
+          </section> 
+
+          <section  data-transition="linear">
+              <h3>Socket operations for TCP/IP</h3>
+              <ul>
+                  <table style="font-size:80%">
+                      <tr>
+                          <th>Operation</th>
+                          <th>Description</th>
+                      </tr>
+                      <tr>
+                          <td>socket</td>
+                          <td>Create a new communication end point</td>
+                      </tr>
+                      <tr>
+                          <td>bind</td>
+                          <td>Attach a local address to a socket</td>
+                      </tr>
+                      <tr>
+                          <td>listen</td>
+                          <td>tell operating system what the maximum number of
+                              pending connection requests should be</td>
+                      </tr>
+                      <tr>
+                          <td>accept</td>
+                          <td>Block caller until a connection request arrives</td>
+                      </tr>
+                      <tr>
+                          <td>connect</td>
+                          <td>Actively attempt to establish a connection</td>
+                      </tr>
+                      <tr>
+                          <td>send</td>
+                            <td>Send some data over the connection</td>
+                      </tr>
+                      <tr>
+                          <td>receive</td>
+                          <td>Receive some data over the connection</td>
+                      </tr>
+                      <tr>
+                          <td>close</td>
+                          <td>Release the connection</td>
+                      </tr>
+
+                  </table>
+              </ul>
+          </section>
+
+
+          <section data-transition="linear">
+              <h3>Connection-oriented communication using sockets</h3>
+              <img src="myfiles/images/coordination/comm-sockets.png" style="width:100%" />
+              <ul style="font-size:70%">
+                  <li></li>
+
+              </ul>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3> Java Sockets - server side</h3>
+
+          <pre><code class="hljs java" style="font-size:70%; word-wrap: break-word;">
+public class HelloServer {
+    public static void start(int port)){
+        serverSocket = new ServerSocket(port);
+        clientSocket = serverSocket.accept();
+
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        String hellogreeting = in.readLine();
+            if ("Hello server".equals(hellogreeting)) {
+                out.println("Hello Client");
+            }
+            else {
+                out.println("Unknown greeting");
+            }
+    }
+}
+          </code></pre>
+          </section> 
+
+          <section data-transition="linear">
+              <h3> Java Sockets - client side</h3>
+
+              <pre><code class="hljs java" style="font-size:70%; word-wrap: break-word;">
+public class HalloClient {
+    public void contactServer(String ip, int port) {
+        clientSocket = new Socket(ip, port);
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        out.println("Hello server");
+        String resp = in.readLine();
+        System.out.println(resp);
+}
+              </code></pre>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3> Socket example from the oracle documentation </h3>
+
+              <ul>
+                  <li><a href="https://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html"
+                      target="_blank">
+                      KnockKnock game </a></li>
+                  <li>3 classes:</li>
+                  <ul>
+                      <li>KnockKnockServer</li>
+                      <li>KnockKnockClient</li>
+                      <li>KnockKnockProtocol</li>
+                  </ul>
+              </ul>
+          </section> 
+<!--
+          <section style="font-size: 1.2em;">
+              <h2 style="padding-bottom: 25px;">Thank you!</h2>
+          </section> 
+-->
+
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+  				{ src: 'plugin/math/math.js', async: true }
+				],
+          // Add the current slide number to the URL hash so that reloading the
+	        // page/copying the URL will return you to the same slide
+	        hash: false,
+				  controls: true,
+				  progress: true,
+				  history: true,
+          touch:true, 
+				  slideNumber: true,
+
+	        // The "normal" size of the presentation, aspect ratio will be preserved
+	        // when the presentation is scaled to fit different resolutions. Can be
+	        // specified using percentage units.
+	        width: 960,
+	        height: 700,
+
+			});
+		</script>
+	</body>
+</html>
