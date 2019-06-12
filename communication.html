@@ -36,7 +36,6 @@
 					    <div class="container">
 						      <div class="col">
 							        <!-- Remove logo--full class to only show brand mark -->
-						      
 							        <h2>Distributed systems</h2>
 
 							        <h3>Communication</h3>
@@ -320,6 +319,11 @@
                           an underlying network</li>
                       <li> from which incoming data can be read</li>
                   </ul>
+                  <li>socket is a <b>specialized software</b> used for communication between
+                       a client and a server</li>
+                  <ul>
+                      <li>one socket is located on the server side and one on the client side </li>
+                  </ul>
                   <li> socket makes an abstraction over the actual port that is used
                       by the local operating system for a specific transport protocol</li>
               </ul>
@@ -381,10 +385,101 @@
               </ul>
           </section> 
 
+          <section data-transition="linear">
+              <h3> <mark>Java Sockets</mark></h3>
+
+              <ul style="font-size:75%">
+                  <li><b>java.net</b> library offers classes for communication over Internet</li>
+                  <li>classes <b>Socket</b>, and <b>ServerSocket</b> from java.net library use TCP to communicate
+                      over network</li>
+                  <li> classes DatagramPacket, DatagramSocket, and MulticastSocket are used with UDP</li> 
+                  <li> usage of ServerSocket  on the server side</li> 
+                  <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
+        ServerSocket serverSocket = new ServerSocket(port);
+                  </code></pre>
+                  <li> ServerSocket throws IOException if I/O errors occur</li>
+                  <li> ServerSocket instance calls accept method and blocks the call until
+                      method receives request from the server when <b>Socket</b> instance
+                      is created (which represents connection between client and server)</li>
+                  <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
+        Socket clientSocket = serverSocket.accept();
+                  </code></pre>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3> Java TCP Sockets - server side</h3>
+
+              <ul style="font-size:100%">
+                  <li>we use <b>BufferedReader</b> to read text from  the client</li>
+                  <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(clientServer.getInputStream()));
+                  </code></pre>
+                  <li> and PrintWriter instance to reply to the client</li>
+                  <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
+        PrintWriter pw  = new PrintWriter(
+            clientServer.getOutputStream(), true);
+                  </code></pre>
+              </ul>
+          </section>
 
 
           <section data-transition="linear">
-              <h3> Java Sockets - server side</h3>
+              <h3> Java TCP Sockets - Simple Echo server </h3>
+
+              <ul style="font-size:100%">
+                  <li> the following lines will complete simple echo server</li>
+                  <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
+String inputLine;
+while ((inputLine = br.readLine())!= null){
+   System.out.println(inputLine);
+   pw.println(inputLine);
+}
+                  </code></pre>
+                  <li>this piece of code reads from client and sends the same text back to the client</li>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3> Java TCP Sockets - Simple Echo client </h3>
+
+              <ul style="font-size:100%">
+                  <li> first have to instantiate Socket to connect to the server and again we
+                  use BufferedReader an PrintWriter to work with text</li>
+                  <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
+Socket clientSocket = new Socket( ipAddress, portNumber);
+PrintWriter pw = new PrintWriter(
+         clientSocket.getOutputStream(), true);
+BufferedReader bf = new BufferedReader(
+               new InputStreamReader( clientSocket.getInputStream()));
+
+                  </code></pre>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h3> Java TCP Sockets - Simple Echo client cont.</h3>
+
+              <ul style="font-size:100%">
+                  <li> the following code implements communication with the server</li>
+                  <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
+
+System.out.println("Connected to server!...");
+Scanner scanner = new Scanner(System.in);
+while(true){
+    System.out.println("Enter text");
+    String inputLine = scanner.nextLine();
+    if(inputLine.equalsIgnoreCalse("quit")) break;
+    pw.println(inputLine);
+    System.out.println("Server responce is !");
+    System.out.println(bf.readLine());
+}
+                  </code></pre>
+              </ul>
+          </section>
+          <section data-transition="linear">
+              <h3> Java TCP Sockets - server side</h3>
 
           <pre><code class="hljs java" style="font-size:70%; word-wrap: break-word;">
 public class HelloServer {
@@ -408,7 +503,7 @@ public class HelloServer {
           </section> 
 
           <section data-transition="linear">
-              <h3> Java Sockets - client side</h3>
+              <h3> Java TCP Sockets - client side</h3>
 
               <pre><code class="hljs java" style="font-size:70%; word-wrap: break-word;">
 public class HalloClient {
@@ -424,14 +519,12 @@ public class HalloClient {
               </code></pre>
           </section> 
 
-
-
           <section data-transition="linear">
-              <h3> Socket example from the oracle documentation </h3>
+              <h3>TCP Socket example in Java documentation </h3>
 
               <ul>
                   <li><a href="https://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html"
-                      target="_blank">
+                         target="_blank">
                       KnockKnock game </a></li>
                   <li>3 classes:</li>
                   <ul>
@@ -441,11 +534,323 @@ public class HalloClient {
                   </ul>
               </ul>
           </section> 
-<!--
+
+
+          <section data-transition="linear">
+              <h3> Java UDP Sockets </h3>
+              <ul>
+                  <li> <b>DatagramSocket</b> class</li>
+                  <ul>
+                      <li>constructor DatagramSocket(int port) throws SocketException</li>
+                      <li>constructs datagram socket and binds it to the specified port on the local machine</li>
+                      <li>java.net.SocketException indicates that socket could not be opened or couldn't be
+                          bind to the specified local port</li>
+                  </ul>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3> Java UDP Sockets - Multicasting example </h3>
+              <ul style="font-size:80%">
+                  <li>Multicasting is the ability to have one device send a message
+                   to more recepients</li>
+                  <li>Idea is to use single ip address to send messages to many users</li>
+                  <li>Multicasting is used in our example to send messages
+                      to a group on a periodic basis</li>
+                  <ul>
+
+                      <li>example of a time server </li>
+                      <li>server will send a date and time every second  </li>
+                      <li>identical message is sent to all members of the group </li>
+                      <li>server only broadcast messages,
+                          it receives no messages from clients</li>
+                      <li>command <span style="color:blue">Thread.sleep(1000)</span>
+                          is used to make a break of 1 second </li>
+
+                      <li>Why we use UDP and not TCP in this scenario? </li>
+                  </ul>
+              </ul>
+          </section> 
+
+
+          <section data-transition="linear">
+              <h3> Java UDP Sockets - Multicasting server</h3>
+              <pre class="stretch"><code class="hljs java" 
+                         style="font-size:90%; line-height:1.3;  word-wrap: break-word;">
+public class MulticastServer {
+    public static void main(String[] args) {
+        System.out.println("Multicast time server!"); 
+        DatagramSocket serverSocket = null;
+        try{
+            serverSocket = new DatagramSocket();
+            while(true){ 
+              String dateText = new Date().toString(); 
+              byte[] buffer = new byte[256];
+              dateText.getBytes();
+            
+              InetAddress group = InetAddress.getByName("254.0.0.0"); 
+              DatagramPacket packet = new DatagramPacket(buffer, buffer.length,
+                                               group, 8888); 
+              serverSocket.send(packet);
+              System.out.println("Time sent: " + dateText);
+        }catch(SocketException se){  
+            se.printStackTrace();
+        }catch(IOException e){  
+            e.printStackTrace();
+        }
+}
+              </code></pre>
+          </section> 
+
+
+          <section data-transition="linear">
+              <h3> Java UDP Sockets - Multicasting client</h3>
+              <ul>
+                  <li>MulticastSocket bound to the specified socket address </li>
+                  <li>to receive messages client must be joined to the group </li>
+                  <li><span style="color:navy">InetAddress</span> is used to get the group </li>
+                  <li>in the for loop client receives 5 packets, prints their content
+                      and after the loop leaves the group </li>
+              </ul>
+          </section>
+
+
+          <section data-transition="linear">
+              <h3> Java UDP Sockets - Multicasting client cont.</h3>
+              <pre class="stretch"><code class="hljs java" style="font-size:89%;
+                                                line-height:1.3;  word-wrap: break-word;">
+public class MulticastClient { 
+   public static void main(String args[]) {
+      System.out.println("Multicast  Time Client"); 
+      try (MulticastSocket socket = new MulticastSocket(8888)) { 
+        InetAddress group = InetAddress.getByName("224.0.0.0");
+        socket.joinGroup(group); 
+        System.out.println("Multicast  Group Joined");
+
+        byte[] buffer = new byte[256]; 
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
+        for (int i = 0; i < 5; i++) { 
+            socket.receive(packet); 
+            String received = new String(packet.getData()); 
+            System.out.println(received.trim()); 
+        }
+       socket.leaveGroup(group); 
+     } catch (IOException ex) {
+            // Handle exception
+     } 
+     System.out.println("Multicast  Time Client Terminated"); 
+ } 
+}
+              </code></pre>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>HTTP - (HyperText Transfer Protocol) </h3>
+
+              <ul style="font-size:75%">
+                  <li>Probably the most widely used <b>application layer protocol</b> in the world today</li>
+                  <li>used to deliver resources across <b>WWW</b></li>
+                  <li>delivered resources are mostly <b>HTML</b> HyperTextMarkupLanguage files,
+                  but also audio, video, etc...</li>
+                  <li> users enter a <b>URL</b> address in a browser to obtain a resource </li>
+
+              </ul>
+              <img src="myfiles/images/communication/http-communication.svg" style="width:70%" />
+          </section> 
+
+
+          <section data-transition="linear">
+              <h3>HTTP </h3>
+              <ul style="font-size:70%">
+                  <li>web browser has a role of client application and  web server
+                      has a role of server which responds to client requests</li>
+                  <li>default port used by servers is <b>80</b> (occasionally port 8080) </li>
+                  <li>famous http servers </li>
+                  <li>HTTP is <b>stateless protocol</b> - http server doesn't have to retain
+                      information (status) of each user during multiple request </li>
+                  <li> secure transfer is possible using <b>SSL</b> (Secure Sockets Layer) -
+                      extension known as <b>HTTPS</b>
+                  <li>well known http servers:</li>
+                  <ul>
+                      <li>Apache HTTP server - the most used</li>
+                      <li>nginx</li>
+                      <li>Microsoft IIS</li>
+                      <li>Google Web server</li>
+                      <li>Appache Tomcat</li>
+                  </ul>
+                  <li>versions: HTTP 1.0, HTTP/1.1, HTTP/2</li>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>HTTP messages </h3>
+              <ul style="font-size:77%">
+                  <li>two types of messages: <span style="color:blue">request</span> and <span style="color:blue">response</span> </li>
+                  <li> request example</li>
+                  <pre><code class="hljs txt" style="font-size:90%;
+                                                    line-height:1.2;  word-wrap: break-word;">
+GET /path/file.html HTTP/1.1
+Host: www.example.com
+                  </code></pre>
+                  <li>request methods specify desired action: GET, HEAD, POST, PUT,
+                      DELETE, OPTIONS, TRACE, OPTIONS, CONNECT, PATCH</li>
+                  <li> response header (example of an initial line)</li>
+                  <pre><code class="hljs txt" style="font-size:90%;
+                                    line-height:1.2;  word-wrap: break-word;">
+HTTP/1.0 404 Not Found
+                  </code></pre>
+
+                  <li>response initial line contains response code which
+                      reflects the status of the result</li>
+                  <li>after the header and an empty line we have the actual content of the message</li>
+              </ul>
+          </section> 
+          <section data-transition="zoom">
+              <h3>HTTP server response </h3>
+              <ul style="font-size:80%">
+                  <li>example from wikipedia</li>
+              </ul>
+                  <pre class="strech"><code class="hljs html" style="font-size:80%;
+                                    line-height:1.2;  word-wrap: break-word;">
+HTTP/1.1 200 OK
+Date: Mon, 23 May 2005 22:38:34 GMT
+Content-Type: text/html; charset=UTF-8
+Content-Length: 138
+Last-Modified: Wed, 08 Jan 2003 23:11:55 GMT
+Server: Apache/1.3.3.7 (Unix) (Red-Hat/Linux)
+ETag: "3f80f-1b6-3e1cb03b"
+Accept-Ranges: bytes
+Connection: close
+
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;An Example Page&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;Hello World, this is a very simple HTML document.&lt/p&gt;
+    &lt;/body&gt;
+<&lt;/html&gt;
+                  </code></pre>
+          </section> 
+
+
+
+
+          <section data-transition="linear">
+              <h3> Simple Web server implementation in Java</h3>
+              <ul style="font-size:70%">
+                  <li> server should support HTTP/1.0 protocol </li>
+                  <li> server limited to handling only GET requests </li>
+                  <li>example in the book
+                      <a href="https://www.oreilly.com/library/view/learning-network-programming/9781785885471/"
+                         target="_blank">
+                          Learning Network Programming with Java </a></li>
+
+              </ul>
+         <pre class="stretch"><code class="hljs java" style="font-size:75%;
+                                    line-height:1.3;  word-wrap: break-word;">
+public class WebServer { 
+   public WebServer() {
+      System.out.println("Web server started"); 
+      try (ServerSocket serverSocket = new ServerSocket(80)) { 
+        while(true) { 
+            System.out.println("Waiting for client request"); 
+            socket.receive(packet); 
+
+            Socket remote = serverSocket.accept(); 
+            System.out.println("Connection made"); 
+            new Thread( new ClientHandler(remote)).start() 
+        }
+     }catch (IOException ex) {
+           ex.printStackTrace(); 
+     } 
+   }
+   public static void main(String args[]) {
+        new WebServer();
+   }
+}
+              </code></pre>
+          </section> 
+
+          <section data-transition="linear">
+              <h3> Web server - Client handler</h3>
+              <ul>
+                  <li>This example of the implementation is described in the book </li>
+              </ul>
+         <pre class="stretch"><code class="hljs java" style="font-size:80%;
+                                    line-height:1.3;  word-wrap: break-word;">
+public class ClientHandler implements Runnable {
+
+    private final Socket socket;
+
+    public ClientHandler(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("\nClientHandler Started for " + 
+            this.socket);
+        handleRequest(this.socket);
+        System.out.println("ClientHandler Terminated for " 
+            + this.socket + "\n");
+    }
+
+}              </code></pre>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>Client which communicates with the Web server  </h3>
+
+              <ul>
+                  <li>ClientHandler have to implement Runnable
+                            because it is used in the thread constructor argument </li>
+              </ul>
+         <pre class="stretch"><code class="hljs java" style="font-size:80%;
+                                    line-height:1.3;  word-wrap: break-word;">
+public class ClientHandler { 
+   public static Socket socket;
+
+   public static main(String[] args){
+      System.out.println("Web server started"); 
+      try (socket = new Socket(80)) { 
+        while(true) { 
+            System.out.println("Waiting for client request"); 
+            socket.receive(packet); 
+
+            Socket remote = serverSocket.accept(); 
+            System.out.println("Connection made"); 
+            new Thread( new ClientHandler(remote)).start() 
+        }
+     }catch (IOException ex) {
+           ex.printStackTrace(); 
+     } 
+   }
+}
+              </code></pre>
+          </section> 
+
+
+          <section data-transition="linear">
+              <h3> Additional literature used for these slides </h3>
+
+              <ul>
+                  <li>
+                      <a href="https://www.oreilly.com/library/view/learning-network-programming/9781785885471/"
+                         target="_blank">
+                          Learning Network Programming with Java </a>, Richard M Reese, Packt Publishin, ISBN: 9781785885471g</li>
+                  <li>
+                      <a href="https://pdfs.semanticscholar.org/18f2/8c21f0b94d072c9727f670357b26a43ff735.pdf"
+                         target="_blank"> Computer networks UDP and TCP</a></li>
+
+              </ul>
+          </section> 
+
           <section style="font-size: 1.2em;">
               <h2 style="padding-bottom: 25px;">Thank you!</h2>
+              <h3 style="padding-bottom: 25px;"><a href="index.html#/content">Back to Table of Contents</a></h3>
           </section> 
--->
 
 			</div>
 		</div>
