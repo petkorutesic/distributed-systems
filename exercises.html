@@ -32,6 +32,16 @@
 		<div class="reveal">
 			<div class="slides">
 
+          <section class="grid3" >
+					    <div class="container">
+						      <div class="col">
+							        <!-- Remove logo--full class to only show brand mark -->
+							        <h2>Distributed systems</h2>
+
+							        <h3>7. Exercises</h3>
+							    </div>
+						  </div>
+				  </section>
 
           <section data-transition="linear">
               <h3> ssh (Secure Shell) </h3>
@@ -198,22 +208,58 @@ sudo apt-get install ansible
          </section>
 
          <section data-transition="linear"> 
-             <h4>TCP Socets in Java</h4>
-           <ul>
-             <li><b>Task1:</b></li>
-             <ul>
-                 <li>Write a Java class that implements TCP Server which
-                     sends time to any client that contact it.  </li>
+             <h3>Lamport's logical clocks</h3>
+             <ul style="font-size:80%">
+                 <li><b>Task 5.1:</b></li>
+                 <ul style="list-style:none">
+                     <li>The figure below shows events for each of two processes
+                         $P_1$ and $P_2$. Arrows between processes denote message
+                         transmission. Assign arbitrarilly timestamps according to
+                         the Lamport's algorithm for logical clocks</li>
+                 </ul>
              </ul>
-             <li><b>Task2:</b></li>
-             <ul>
+             <img src="myfiles/images/exercises/lamport-clocks1.svg" style="width:80%" />
+         </section>
+
+         <section data-transition="linear"> 
+             <h3>Lamport's logical clocks</h3>
+             <ul style="font-size:80%">
+                 <li><b>Task 5.2:</b></li>
+                 <ul style="list-style:none">
+                     <li>The figure shows events for each of three processes
+                         $P_1$, $P_2$ and $P_3$. Arrows between processes denote message
+                         transmission. Assign arbitrarilly labels(timestamps) according to
+                         the Lamport's algorithm for logical clocks</li>
+                 </ul>
+             </ul>
+             <img src="myfiles/images/exercises/lamport-clocks2.svg" style="width:80%" />
+         </section>
+
+
+
+         <section data-transition="linear"> 
+             <h3>TCP Socets in Java</h3>
+           <ul style="font-size:80%">
+             <li><b>Task 6.1:</b></li>
+             <ul style="list-style:none">
+                 <li>Write a Java class that implements TCP Server which
+                     sends time to any client that contacts it.  </li>
+             </ul>
+             <li><b>Task 6.2:</b></li>
+             <ul style="list-style:none">
                  <li>Write a Java class that implements a client which contact
                      server from the task 1 and prints received message(time) on the
                      standard output (screen). It should be possible to call client
                      from the command line (terminal) with the port number as the only
                      parameter</li>
              </ul>
-             <li> run both classes and test its functionality</li>
+             <li><b>Task 6.3:</b></li>
+             <ul style="list-style:none">
+                 <li>a) run both classes and test it on your local machine. </li>
+                 <li>b) deploy server class on you openstack instance an run it on
+                     the port 8080 and than access it using client from your local machine. </li>
+             </ul>
+
            </ul>
          </section>
 
@@ -241,7 +287,8 @@ sudo apt-get install ansible
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
+					{ src: 'plugin/highlight/highlight.js', async: true },
+  				{ src: 'plugin/math/math.js', async: true }
 				],
           // Add the current slide number to the URL hash so that reloading the
 	        // page/copying the URL will return you to the same slide

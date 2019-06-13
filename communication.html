@@ -38,7 +38,7 @@
 							        <!-- Remove logo--full class to only show brand mark -->
 							        <h2>Distributed systems</h2>
 
-							        <h3>Communication</h3>
+							        <h3>6. Communication</h3>
 							    </div>
 						  </div>
 				  </section>
@@ -392,7 +392,7 @@
                   <li><b>java.net</b> library offers classes for communication over Internet</li>
                   <li>classes <b>Socket</b>, and <b>ServerSocket</b> from java.net library use TCP to communicate
                       over network</li>
-                  <li> classes DatagramPacket, DatagramSocket, and MulticastSocket are used with UDP</li> 
+                  <li> classes <b>DatagramPacket</b>, <b>DatagramSocket</b>, and <b>MulticastSocket</b> are used with UDP</li> 
                   <li> usage of ServerSocket  on the server side</li> 
                   <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
         ServerSocket serverSocket = new ServerSocket(port);
@@ -416,7 +416,7 @@
         BufferedReader in = new BufferedReader(
             new InputStreamReader(clientServer.getInputStream()));
                   </code></pre>
-                  <li> and PrintWriter instance to reply to the client</li>
+                  <li> and <b>PrintWriter</b> instance to reply to the client</li>
                   <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
         PrintWriter pw  = new PrintWriter(
             clientServer.getOutputStream(), true);
@@ -446,7 +446,7 @@ while ((inputLine = br.readLine())!= null){
 
               <ul style="font-size:100%">
                   <li> first have to instantiate Socket to connect to the server and again we
-                  use BufferedReader an PrintWriter to work with text</li>
+                  use BufferedReader and PrintWriter to work with text</li>
                   <pre><code class="hljs java" style="font-size:100%; word-wrap: break-word;">
 Socket clientSocket = new Socket( ipAddress, portNumber);
 PrintWriter pw = new PrintWriter(
@@ -830,6 +830,20 @@ public class ClientHandler {
 }
               </code></pre>
           </section> 
+
+          <section data-transition="linear">
+              <h3><mark>RPC (Remote procedure calls)</mark></h3>
+
+              <ul>
+                  <li>RPC is a way to call a function on a remote server
+                      using the same syntax as if you call it in a local library</li>
+                  <li>when a process on machine A calls procedure(function) on B
+                  it stops and wait while it's executed</li>
+                  <li>no message passing is visible to the programmer</li>
+                  <li>remote procedure call should look as much like as the local call </li>
+              </ul>
+          </section> 
+
 
 
           <section data-transition="linear">
