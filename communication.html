@@ -775,9 +775,6 @@ public class WebServer {
 
           <section data-transition="linear">
               <h3> Web server - Client handler</h3>
-              <ul>
-                  <li>This example of the implementation is described in the book </li>
-              </ul>
          <pre class="stretch"><code class="hljs java" style="font-size:80%;
                                     line-height:1.3;  word-wrap: break-word;">
 public class ClientHandler implements Runnable {
@@ -833,47 +830,355 @@ public class ClientHandler {
 
           <section data-transition="linear">
               <h3><mark>RPC (Remote procedure calls)</mark></h3>
-
-              <ul>
-                  <li>RPC is a way to call a function on a remote server
-                      using the same syntax as if you call it in a local library</li>
+              <ul style="font-size:70%">
+                  <li>Client-server communication discussed so far is message-based
+                      and we didn't conceal sending and receiving messages</li>
+                  <li>RPC is s way to achieve <b>access transparency</b></li>
+                  <li>RPC provides a way to call a function on a remote server
+                      using the same syntax as <em>if you call it in the local library</em></li>
+                  <li>RPC is, for example, useful in the following situations:</li>
+                  <ul>
+                      <li>due to the size of the program there is a need
+                          to spread it accross several machines</li>
+                      <li>there is a need to  process information which is only available on a remote network </li>
+                  </ul>
                   <li>when a process on machine A calls procedure(function) on B
                   it stops and wait while it's executed</li>
-                  <li>no message passing is visible to the programmer</li>
-                  <li>remote procedure call should look as much like as the local call </li>
+                  <li>no message passing should be visible to the programmer</li>
+                  <li>remote procedure call should look as a local procedure call </li>
+              </ul>
+          </section> 
+
+          <section data-markdown>
+              <textarea data-template>
+## RPC cont.
+* What makes RPC different form message passing 
+  (and other protocols such as HTTP and SMTP)
+ * RPC is lacking strong sematics of the call 
+  (it assigns no meaning to the data passed except supporting basic
+data types)
+ * RPC leaves it up to the developer to define which function calls will
+a server support  
+
+* common feature is to signal that exception occurred while running remote
+ function (in such cases client could raise an exception)
+              </textarea>
+          </section>
+
+          <section data-transition="linear">
+              <h3>RPC implementation</h3>
+
+              <ul style="font-size:70%">
+                  <li>implementation issues</li>
+                  <ul>
+                      <li>calling and called procedure run on different machines
+                          and in different address space</li>
+                      <li>parameters and results also have to be passed</li>
+                  </ul>
+                  <li>RPC achieves transparency by offering <b>client stub</b>
+                      to the calling client </li>
+                  <ul>
+                      <li> client stub has the same calling sequence as normal
+                          procedure on the server side</li>
+                      <li>client stub doesn't execute operation but just sends
+                          messages to the server </li>
+                  </ul>
+                  <li> server has a <b>server stub</b> (often referred
+                      to as a <b>skeleton</b>)  which is a server-side equivalent to the client stub</li>
+                  <ul>
+                      <li> server stub transforms requests comming from the
+                          network into local procedure call</li>
+                      <li> when local procedure is executed it packs results in a
+                          message and calls send to return it to the client</li>
+                  </ul>
+              </ul>
+          </section> 
+
+
+          <section data-transition="linear">
+              <h3>RPC - parameter passing</h3>
+
+              <ul style="font-size:80%">
+                  <li>client stub has a function to take parmeters, pack it in a message
+                  and send it to the server stub</li>
+                  <ul>
+                      <li>packing parameters into a message is called
+                          <b>parameter marshaling</b></li>
+                  </ul>
+                  <li>sever stub has to unpack the message and take sent parameters </li>
+                  <ul>
+                      <li>unpacking parameters from the message is called
+                          <b>unmarshaling</b></li>
+                  </ul>
+                  <li> marshaling and unmarshaling should transform data into neutral formats</li>
+                  <ul>
+                      <li> transforation to neutral formats is necessary because different machines
+                          can have differnt byte-ordering rules and other differences</li>
+                      <li>Intel processors for instance use <b>little endian</b> (numbering bytes
+                          form right to left) and older ARM processors use big-endian
+                  </ul>
+              </ul>
+          </section> 
+
+
+          <section data-transition="linear">
+              <h3>RPC - parameter passing issues</h3>
+
+              <ul style="font-size:80%">
+                  <li>languages has mostly two types of parameter passing </li>
+                  <ul>
+                      <li> <b>copy-by-value </b></li>
+                      <li> <b>copy-by-reference</b> </li>
+                  </ul>
+                  <li>copy-by-reference (using pointers) is specialy problematic for RPC</li>
+                  <ul>
+                      <li> when we copy-by-reference we basically copy the address
+                          in our local address space and when we transfer it to
+                          the server it's there useless</li>
+                      <li>one part of a solution is to copy these parameters by value if they
+                      would be only read on the server side</li>
+
+                  </ul>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>RPC example in python</h3>
+              <ul style="font-size:90%">
+                  <li>example implemented on the local mashine</li>
+                  <li>python has in-built server which can be run through the
+                      script located in <b>bin/rpyc_classic.py</b> of
+                      python installation:  <b>python bin/rpyc_classic.py</b></li>
+                  <li> on the client side we have a simple program using rpyc library</li>
+              <pre><code class="hljs python" style="font-size:100%;
+                           line-height:1.3;  word-wrap: break-word;">
+import rpyc
+
+conn = rpyc.classic.connect('localhost')
+conn.execute('print('Hello world");
+              </code></pre>
+
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>RPC - Example 2</h3>
+              <ul style="font-size:90%">
+                  <li>in this example client side opens a textfile and prints
+                      lines using <b>print_line</b> function</li>
+                  <li>client calls a procedure <b>line_count</b> which
+                      is located on the server side</li>
+                  <pre class="stretch"><code class="hljs python" style="font-size:100%;
+                                    line-height:1.3;  word-wrap: break-word;">
+import rpyc
+
+def print_line(string):
+    print("Line:", repr(string))
+
+proxy = rpyc.connect('localhost', 18861, config={'allow_public_attrs': True})
+file_obj = open('textfile.txt')
+linecount = proxy.root.line_counter(file_obj, print_line)
+print("Number of lines in the file is: ", linecount)
+                  </code></pre>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>RPC - Example 2 - client side</h3>
+              <ul style="font-size:90%">
+                  <li>server side reads the file
+                      and every time calls client side function to print a line </li>
+                  <li>we can see that communications is done several times and this
+                  requires intensive use of the network</li>
+                  <pre class="stretch"><code class="hljs python" style="font-size:100%;
+                                                    line-height:1.3;  word-wrap: break-word;">
+import rpyc
+from rpyc.utils.server import ThreadedServer
+
+class MyService(rpyc.Service):
+    def exposed_line_counter(self, f_object, function):
+        for line_num, line in enumerate(f_object.readlines()):
+            function(line)
+        return line_num+1
+
+t = ThreadedServer(MyService, port=18861)
+t.start()
+                  </code></pre>
+              </ul>
+          </section> 
+
+           <section data-transition="linear">
+              <h3>CORBA - Common Object Request Architecture</h3>
+              <ul style="font-size:80%">
+                  <li>RPC proved to be adequate solution for the develoment of
+                      two-tier client server architectures</li>
+                  <li>RPC cauldn't provide flexibility and functionality required
+                      by in n-tier applications</li>
+                  <li>Common Object Request Architecture (CORBA) is offered as a
+                      solution by Object Management Group (OMG) </li>
+                  <ul>
+                      <li>CORBA is an architecture that specifies interoperability
+                      between distributed objects on the network</li>
+                      <li> it is an <b>object-oriented middleware paradigm</b> </li>
+                      <li> primary feature is interoperability between various
+                          programming languages</li>
+                      <li>CORBA is based on RPC and extends RPC framework by
+                          object-oriented mechanisms</li>
+                  </ul>
+                  </ul> 
+
+              </ul>
+          </section> 
+
+         <section data-transition="linear">
+              <h3> Object Request Broker (ORB)</h3>
+              <ul style="font-size:80%">
+                  <li>main part of CORBA is <b>Object Request Broker</b> (ORB)</li>
+                  <ul>
+                      <li>object residing in a client make remote requests using an
+                          interface to the ORB running on the local machine</li>
+                      <li>local ORB sends the request to the remote ORB
+                          (which resides on the server) and sends back an object
+                          reference to the requester</li>
+                      <li>object residing on the client can now make a remote method
+                          invocation of the remote object </li>
+                      <li>ORB marshals arguments and sends invocation over the
+                          network to the remote object's ORB</li>
+                      <li>remote object's ORB calls the method locally and sends results
+                          back to the client.</li>
+                  </ul>
+              </ul>
+          </section> 
+
+         <section data-transition="linear">
+              <h3> Object Request Broker (ORB) cont.</h3>
+              <ul style="font-size:80%">
+                  <li>services that an object provides are expressed in a
+                      special language - <b>Interface Definition Language (IDL)</b> </li>
+              </ul>
+              <img src="myfiles/images/communication/corba1.svg" style="width:70%" />
+          </section> 
+
+          <section data-transition="linear">
+              <h3> CORBA cont.</h3>
+              <ul style="font-size:80%">
+                  <li>currently there are many languages supported by CORBA providers,
+                  the majority of them with C++ and Java  and some
+                      other with Smalltalk, Perl, Python, etc.</li>
+                  <li>some CORBA products are</li>
+                  <ul>
+                      <li>
+                      <b>Orbacus</b> - (Java and C++ ORB from Iona Technologies)
+                      </li>
+                      <li>
+                          <b>WebSphere</b> - (application server with an ORB from IBM)
+                      </li>
+                  </ul>
+                  <li>CORBA showed to have many shortcomings and limitations
+                      when used in Web environments and is supersided by more
+                      compliant technologies </li>
               </ul>
           </section> 
 
           <section data-transition="linear">
               <h3><mark>Web services</mark></h3>
+              <ul style="font-size:80%">
+                  <li><b>web service</b> is a distributed application whose components
+                      are executed on distinct devices </li>
+                  <li>web services provide a <b>common communication platform</b> for
+                      applications built in <b>various programming languages</b> </li>
+                  <ul>
+                      <li><b>language transparency</b> is the key to web service
+                          <b>interoperability</b></li>
+                      <li>interoperabilty represents an ability of web services and <em>requesters</em>
+                          to interact seamlessly despite of differences in programming
+                          languages, platforms and supporting libraries</li>
+                      <li>language transparency is achieved by exchanging data
+                          using <b>XML</b> technologies </li>
+                      <li>XML supports structured document interchange and processing</li>
 
+                  </ul>
+
+              </ul>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3>Web services cont.</h3>
               <ul>
-                  <li>provide a common communication platform for
-                      applications built on various programming languages </li>
+                  <li>Web services are tipically <b>based on HTTP protocol</b></li>
+                  <li>client can make requests for various web services (servers can
+                     also behave as clients to some other servers)
+                  </li>
+                  <li>Web service features</li>
+                  <ul>
+                      <li><b>loosely coupled</b> - each service exists independently of
+                      other services that make up application</li>
+                      <li><b>easier integration</b> - providing easier communication between 
+                      organizations </li>
+                      <li><b>service reuse</b> - providing easier communication between 
+                          organizations </li>
 
-                  <li>client will make requests for various web services</li>
-                  <li>requests are made through remote procedure calls </li>
-                  <li>main component is a data which is transfered between server and client and data is represented in <b>XML</b> </li>
-                  <li>SOAP (Simple Object Access Protocol) used for sending the XML data between applications</li>
-                  <li>SOAP messages are nothing but XML documents sent over normal HTTP</li>
+                  </ul>
+                  <li>Web services can be devided roughtly into two categries:</li>
+                  <ul>
+                    <li>SOAP based</li> 
+                    <li>REST style</li> 
+                  </ul>
               </ul>
           </section> 
 
           <section data-transition="linear">
               <h3>SOAP (Simple Object Access Protocol)</h3>
+              <p>SOAP is an industry accepted W3C specification for ubiquitous
+                  XML distributed computing infrastructure</p>
 
               <ul>
                   <li>transport-independent messaging protocol</li>
-
+                  <li> mechanism for defining the unit of communication</li>
+                  <li> mechanism for error handling</li>
                   <li>messages are XML documents which follow a specific pattern</li>
                   <ul>
-                      <li>root element is known as envelope element</li>
+                      <li>root element is known as Envelope element</li>
                       <li>header contains rooting data</li>
                       <li>body contains the actual message</li>
-
                   </ul>
               </ul>
           </section> 
+
+
+
+          <section data-transition="linear">
+              <h3>SOAP message format</h3>
+              <pre class="stretch"><code class="hljs xml" style="font-size:100%;
+                                                line-height:1.3;  word-wrap: break-word;">
+<?xml version="1.0"?>
+&lt;soap:Envelope
+    xmlns:soap="http://www.w3.org/2003/05/soap-envelope/"  
+    soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding"&gt;
+
+    <soap:Header>
+        ...
+    </soap:Header>
+
+    <soap:Body>
+        ...
+        <soap:Fault>
+            ...
+        </soap:Fault>
+    </soap:Body>
+
+</soap:Envelope> 
+              
+              </code></pre>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>Simplified architecture of SOAP message transmission</h3>
+              <img src="myfiles/images/communication/soap-based.svg" style="width:90%" />
+          </section> 
+
 
 
           <section data-transition="linear">
@@ -884,25 +1189,66 @@ public class ClientHandler {
               <ul>
                   <li>WSDL file is a description of what the web service does</li>
 
-                  <li>WSDL file is an XML document too</li>
+                 <li>WSDL file is an XML format for describing all the information
+                 needed to invoke and communicate with a Web service</li>
+                 <li>WSDL contains</li>
+                 <ul>
+                     <li><b>Functional description</b> - detail on how the Web
+                         service is invoked, and focuses on details of syntax of the message and how to
+                         configure protocols to deliver message</li>
+                     <li><b>nenfunctional description</b> - details secondary for the
+                         message such as security policy and additionaly instructions
+                 </ul>
                   
               </ul>
           </section> 
 
+
+          <section data-transition="linear">
+              <h3><mark>RESTful Web Services</mark></h3>
+              <ul style="font-size:80%">
+                  <li>Representational State Transfer (REST) </li>
+                  <ul>
+                      <li>GET - Reads an existing resource</li>
+                      <li>POST - Creates a new resource </li>
+                      <li>PUT - Updates an existing resource </li>
+                      <li>DELETE - Deletes an existing resource </li>
+                  </ul>
+                  <li></li>
+              </ul>
+          </section> 
+
+
+
           <section data-transition="linear">
               <h3> Additional literature used for these slides </h3>
 
-              <ul>
+              <ul style="font-size:90%">
                   <li>
                       <a href="https://www.oreilly.com/library/view/learning-network-programming/9781785885471/"
                          target="_blank">
-                          Learning Network Programming with Java </a>, Richard M Reese, Packt Publishin, ISBN: 9781785885471g</li>
+                          Learning Network Programming with Java </a>, Richard M Reese, Packt Publishing, ISBN: 9781785885471</li>
                   <li>
                       <a href="https://pdfs.semanticscholar.org/18f2/8c21f0b94d072c9727f670357b26a43ff735.pdf"
                          target="_blank"> Computer networks UDP and TCP</a></li>
+                  <li>
+                      <a href="https://www.apress.com/gp/book/9781430258544"
+                         target="_blank">
+                          Foundations of Python Network Programming </a>, Brandon Rhodes,  John Goerzen</li>
+
+                 <li>
+                     <a href="https://www.tutorialspoint.com/python/python_rpc_json_server.htm"
+                         target="_blank">
+                          Tutorials point </a></li>
+                 <a href="https://www.researchgate.net/publication/236860265_Introduction_to_Web_Services"
+                    target="_blank">
+                     Introduction to Web services </a>, Jorge Cardoso, John A. Miller</li>
+
+
 
               </ul>
           </section> 
+
 
           <section style="font-size: 1.2em;">
               <h2 style="padding-bottom: 25px;">Thank you!</h2>
