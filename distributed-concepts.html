@@ -1,0 +1,471 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Distributed systems</title>
+    <meta name="author" content="Petko Rutešić">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/distrib_beige.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		    <script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+          <section class="grid3" >
+					    <div class="container">
+						      <div class="col">
+							        <!-- Remove logo--full class to only show brand mark -->
+							        <h2>Distributed systems</h2>
+
+							        <h3>7. Distributed concepts</h3>
+							    </div>
+						  </div>
+				  </section>
+
+          <section data-transition="zoom">
+              <h2> <mark>Fault tolerance</mark></h2>
+              <ul style="font-size:80%">
+                  <li><b>Fault tolerance</b> is an important goal in distributed systems </li>
+                  <ul>
+                      <li>ability of the system to recover from partial failures without serously
+                      affecting the overall performance</li>
+                      <li>when a failure occurs the system should continue to operate in
+                          in an acceptable way while repairs are made</li>
+                     <li>fault tolerance and <b>reliable communication</b> are strongly related</li>
+                     <ul>
+                         <li>reliable client-server communication and group communication</li>
+                     </ul>
+                     <li><b>atomicity</b> is very important for distributed applications</li>
+                     <ul>
+                         <li><b>distributed commit protocols</b> - protocols that ensure
+                             that a group of processes jointly commit their local work, or
+                         collectively abort and return to a previous system state </li>
+                     </ul>
+                     <li><b>redundancy</b> is a key technique in achieving fault tolerance</li>
+                  </ul>
+              </ul>
+          </section> 
+
+          <section data-transition="zoom">
+              <h2>Fault tolerance</h2>
+              <ul style="font-size:80%">
+                  <li>an fault tolerance example is applying error correcting codes for
+                      transmitting packets</li>
+                  <li>there exist different types of failures</li>
+                  <li>redundancy can be:</li>
+                  <ul>
+                      <li>time redundancy</li>
+                      <li>physical redundancy</li>
+                  </ul>
+                  <li> key approach in tolerating processes is organizing serveral indentical
+                      processes into a group</li>
+                  <ul>
+                      <li>if some of the processes fail other processes take over</li>
+                      <li> process groups can be organized differently</li>
+                      <ul>
+                          <li>processes are equal and there is no leader</li>
+                          <li>there is a process coordinator and other precesses are workers</li>
+                      </ul>
+                      <li> both organization types have advantages and disadvantages</li>
+                  </ul>
+
+
+              </ul>
+          </section> 
+
+
+          <section data-transition="zoom">
+              <h2> Distributed commit problem</h2>
+              <ul style="font-size:80%">
+                  <li>an operation should be performed by each member of a process group,  or none at all</li>
+                  <ul>
+                      <li>opperation may be delivery of a message  in the
+                          case of multicasting</li>
+                      <li>operation is also commit of a transaction on a single site that
+                          takes part in the transaction</li>
+                  </ul>
+                  <li><b>one-phase commit protocol</b> is established by means of
+                      a coordinator which tells other involved processes (participants)
+                  whether or not to locally perform the operation </li>
+                 <ul> 
+                     <li> obvious drawback is that there is not way to tell
+                         coordinator that some of the participants cannot
+                         actually perform the operation</li>
+                     <li> Is this good approach for distributed transactions?</li>
+                 </ul>
+              </ul>
+          </section> 
+
+          <section data-transition="zoom">
+              <h2> Two phase commit protocol</h2>
+              <ul style="font-size:70%">
+                  <li>assuming that no failures occur protocol consists of two
+                      phases </li>
+
+                  <li><b style="color:blue">first phase</b></li> 
+                  <ol>
+                      <li>- coordinator sends a <b>VOTE-REQUEST</b> message to all
+                          participants</li>
+                      <li>participants receive VOTE-REQUEST message and returns
+                          <b>VOTE-COMMIT</b> or <b>VOTE-ABORT</b> message to the
+                          coordinator</li>
+                  </ol>
+
+                  <li><b style="color:blue">second phase</b></li> 
+                  <ol>
+                      <li>coordinator receives votes and desides: </li>
+                      <ul>
+                          <li>if all participants voted font
+                              to commit then coordinator sends <b>GLOBAL-COMMIT</b> to
+                              all participants</li>
+                          <li>if, however, at least one voted to abort transaction
+                              then coordinator decides to abort the trasanction and
+                              multicasts a <b>GLOBAL-ABORT</b> message
+                          </li>
+                      </ul>
+                      <li>participants which voted to commit transaction wait for
+                          the final reaction from the coorinator and if they receive
+                          GLOBAL-COMMIT they execute transation and if receive
+                          GLOBAL-ABORT they abort it localy </li>
+                 </ol> 
+              </ul>
+          </section> 
+
+          <section data-transition="zoom">
+              <h2> Two phase commit protocol cont.</h2>
+              <ul style="font-size:80%">
+                  <li>finite state machine of coordinator and participants </li>
+              </ul>
+              <img src="myfiles/images/algorithms/two-phase.svg" style="size:80%" />
+          </section>
+
+          <section data-transition="zoom">
+              <h2> Two phase commit protocol - problems</h2>
+              <ul style="font-size:70%">
+                  <li> participants and coordinator wait some time and this be the reason
+                       for problems if some of processes are stuck </li>
+                  <ul><li>to prevent this time mechanisms are used</li></ul>
+
+                  <li>three points of potential wait</li> 
+                  <ol>
+                      <li>participant is waiting in INIT state for a VOTE_REQUEST from the coordinator</li>
+                      <ul><li>solution - after some time participatn can decide
+                          to send VOTE_ABORT to the coordinator</li></ul>
+                      <li>coordinator blocked in state WAIT - waiting for the
+                          votes of each participant</li>
+                      <ul><li>solution - after some time coordinator should send
+                          GLOBAL_ABORT to all participants
+                      </li></ul>
+                      <li>participant is blocked in state READY waiting for the
+                      global vote sent by the coordinator</li>
+                      <ul><li>solution - simplest solution is to block
+                      each participant until coordinator recovers</li></ul>
+
+                  </ol>
+              </ul>
+          </section>
+
+          <section data-transition="zoom">
+              <h2> Two phase commit protocol - blocking factors</h2>
+              <ul style="font-size:70%">
+                  <li> better solutions for the <b>case 3.</b> from the last page
+                      when participant is waiting in READY state </li>
+                  <ul><li>first solution would be that participant (say participant P)
+                      contacts another participant Q and decide from it's state what
+                      should do:
+                      <table style="align-content:center">
+                          <tr>
+                              <td><b>State of Q</b></td>
+                              <td><b>Action of P</b></td>
+                          </tr>
+                          <tr>
+                              <td>COMMIT</td>
+                              <td>Make transition to COMMIT</td>
+                          </tr>
+                          <tr>
+                              <td>ABORT</td>
+                              <td>Make transition to ABORT</td>
+                          </tr>
+                          <tr>
+                              <td>INIT</td>
+                              <td>Make transition to ABORT</td>
+                          </tr>
+                          <tr>
+                              <td>READY</td>
+                              <td>Contact other participant</td>
+                          </tr>
+                      </table>
+                  </li>
+                  <li>if all participants are in state READY no decesion can be
+                  taken</li>
+                  <li>in order to recover processes need to save its state
+                      to a persistent storage - so that they can recover
+                      to that state again</li>
+                  </ul>
+             </ul>
+          </section>
+
+          <section data-transition="zoom">
+              <h2> Two phase commit protocol - recovering after crash</h2>
+              <ul style="font-size:80%">
+                  <li>in order to recover processes need to save its state
+                      to a persistent storage - so that they can recover
+                      to that state again</li>
+                  <ul>
+                      <li>participant was in INIT - it can decide to abort after
+                      recovery</li>
+                      <li>participant was in COMMIT or ABORT - it can decide to
+                      retransmit its decision to the coordinator </li>
+                      <li>participant was in READY - it is forced contact other
+                          participants and decide again according to the previous table</li>
+                      <li>coordinator was in WAIT - it can retransmit the
+                      VOTE_REQUEST after recovering</li>
+                      <li>coordinator had come to a decision before crash - decision
+                      has to be recorded and after recovery just retransmitted</li>
+ 
+                  </ul>
+             </ul>
+          </section>
+
+          <section data-transition="zoom">
+              <h2> Two phase commit protocol - problems</h2>
+              <ul style="font-size:80%">
+                  <li> in some situations participants need to block until the
+                  coordinator recovers</li>
+                  <ul>
+                      <li>example when all participants received VOTE_REQUEST and
+                      processed it, while in the meantime the coordinator crashed</li>
+                      <li>participants then cannot cooperatively decide on the final
+                      action and have to wait</li>
+                      <li> because of this 2PC is also called <b>blocking commit
+                      protocol</b></li>
+                  </ul>
+                  <li>solutions</li>
+                  <ul>
+                      <li>using three fases instead of two</li>
+                      <li>receiver multicasts a received message to all other
+                      participants</li>
+                      <li>final decision can be reached even when coordinator crashed</li>
+                  </ul>
+                  <li> 2PC is, for instance, used by database servers for transactions modifying
+                      data on multiple servers </li>
+             </ul>
+          </section>
+
+          <section data-transition="zoom">
+              <h2> <mark>Agreement protocols</mark></h2>
+              <ul style="font-size:70%">
+                  <li>In distributed systems sites (processors) compete and
+                      cooperate to achieve commont goals </li>
+                  <li>often it's necessary that sites reach <b>mutual agreement</b></li>
+                  <ul>
+                      <li>for instance data managers have to reach an agreement
+                          whether to commit or abort a transaction</li>
+                      <li>in distributed commit a site has to know outcome of
+                      local commits </li>
+                  </ul>
+                  <li>reaching agreement is easy in systems <b>free from failures</b></li>
+                  <ul>
+                      <li>voting and making decision according to majority vote (minimum,
+                          maximum, mean(etc.) number of votes)</li>
+                  </ul>
+                  <li>in systems prone to failures we can have <b>faulty processors</b>
+                     sending conflicting values and preventing other processors
+                      to reach an agreement (previous methods don't work)</li>
+                  <ul>
+                      <li>processors now send values to other processors many times
+                          , refine values, and reach agreement in order to isolate
+                          effects of faulty processors -
+                          process called <b>agreement protocol</b></li>
+                  </ul>
+             </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2> Agreement problems</h2>
+              <ul style="font-size:80%">
+                  <li>Three well known agreement problems in distributed systems </li>
+                  <li><b style="color:blue">Bizantine agreement problem</b></li>
+                  <ul>
+                      <li>single value (which is to be agreed on) is initialized
+                          by an arbitrary processor and other nonfaulty
+                          processors has to agree on <b>that value</b></li>
+                  </ul>
+                  <li><b style="color:blue">consensus problem</b></li>
+                  <ul>
+                      <li>every processor has its own initial value and all
+                          nonfaulty processors have to agree on a <b>single common
+                          value</b></li>
+                  </ul>
+                  <li><b style="color:blue">interactive consistency problem</b></li>
+                  <ul>
+                      <li>every processor has its own initial value and all
+                          nonfaulty processors have to agree on a <b>set of common
+                          values</b></li>
+                  </ul>
+
+             </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2>Bizantine agreement problem</h2>
+              <ul style="font-size:70%">
+                  <li>Problem first defined and solved (under processor failures) by Lamport et al.</li>
+                  <li>arbitrarily chosen processor (<b>source processor</b>) brodcast
+                     to other processors its initial value </li>
+                  <li>Byzantine agreement should garantee that <b>all nonfaulty processor
+                      agree on the same value</b> </li>
+                  <li>processors must exchange values through messages to reach a consensus </li>
+                  <li>processors receive values and relay values to other processors</li>
+                  <li>faulty processors may confuse other processors by sending conflicting values</li>
+                  <li>Byzantine agreement problem should meet the following <b>objectives</b>:</li>
+                  <ul>
+                      <li><b>Agreement</b> - all nonfaulty processors agree on the same value</li>
+                      <li><b>Validity</b> - if the source processor is not faulty,
+                          then the common agreed upon value should be initial value of the source</li>
+                  </ul>
+                  </ul>
+             </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2>Bizantine agreement problem - Byzantine generals problem</h2>
+              <ul style="font-size:80%">
+                  <li>problem resembles a situation in which a team of generals in an army
+                      (say Byzantine army) is trying to reach an agreement on an attack plan</li>
+                  <li>generals are located on distant places and can
+                      <b>communicate only through messengers</b></li>
+                  <li>some generals are <b>traitors</b> and try to prevent <b>loyal</b> generals
+                      from reaching an agreements </li>
+                  <li>the simplest type of messages can be 1 - attack, 0 - retreat</li>
+              </ul>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2>Upper bound of faulty processors</h2>
+              <ul style="font-size:80%">
+                  <li> if faulty processors dominate in number they can prevent
+                      nonfaulty processors to reach an agreement</li>
+                  <li> the number of faulty processors should not exceed
+                      a certain limit if a consensus is to be reached</li>
+                  <li>Pease et al. showed that in a faulty connected network, it
+                      is impossible to reach a consensus if the number of faulty
+                      processors <b>m</b> exceeds $(n-1)/3$ where <b>n</b>
+                      is total number of processors </li>
+              </ul>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2>Bizantine agreement problem - Byzantine generals problem</h2>
+              <ul style="font-size:80%">
+                  <li>problem resembles a situation in which a team of generals in an army
+                      (say Byzantine army) is trying to reach an agreement on an attack plan</li>
+                  <li>generals are located on distant places and can
+                      <b>communicate only through messengers</b></li>
+                  <li>some generals are <b>traitors</b> and try to prevent <b>loyal</b> generals
+                      from reaching an agreements </li>
+                  <li>the simplest type of messages can be 1 - attack, 0 - retreat</li>
+              </ul>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2>Lamport-Shostak-Pease algorithm - Oral message algorithm</h2>
+              <ul style="font-size:80%">
+                  <li>solves Byzantine problem for 3m+1 or more processors </li>
+                  <li> <em>m</em> - number of faulty processors</li>
+                  <li> <em>n</em> - total number of processors</li>
+                  <li>$n>=3\times m+1$</li>
+                  <li>algorithm is recursively defined</li>
+              </ul>
+              </ul>
+          </section>
+
+          <section data-transition="linear">
+              <h2>Lamport-Shostak-Pease algorithm </h2>
+              <ul style="font-size:70%">
+                  <li>- <b>Algorithm OM(O)</b></li>
+                  <ol>
+                      <li>source processor sends its value to every processor</li>
+                      <li>each processor uses the value it received from
+                          the source (if it receives no value, default value is 0 (retreat)</li>
+                  </ol>
+                  <li>-<b> Algorithm OM(m), m>O</b></li>
+                  <ol>
+                      <li>source processor sends its value to every processor</li>
+                      <li>for each <b>i</b> let $V_i$ be the value that processor i receives from
+                          the source, (if it receives no value, then it uses a default value of 0).
+                          Processor i acts as the new source and initiates <b>Algorithm OM(m-1)</b> where
+                          it sends a the value $V_i$ to each of <b>n-2</b> other processors </li>
+                      <li>for each <b>i</b> and each <b>j!=i</b> let $V_j$ be the value that processor i receives from
+                          processor j in Step 2 using <b>Algorithm OM(m-1)</b>(if it receives no
+                          value, then it uses a default value of 0).
+                          Processor i uses the value majority $(V_1, V_2, \dots V_{n-1})$</li>
+                  </ol>
+              </ul>
+          </section>
+
+          <section style="font-size: 1.2em;">
+              <h2 style="padding-bottom: 25px;">Thank you!</h2>
+              <h3 style="padding-bottom: 25px;"><a href="index.html#/content">Back to Table of Contents</a></h3>
+          </section> 
+
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+  				{ src: 'plugin/math/math.js', async: true }
+				],
+          // Add the current slide number to the URL hash so that reloading the
+	        // page/copying the URL will return you to the same slide
+	        hash: false,
+				  controls: true,
+				  progress: true,
+				  history: true,
+          touch:true, 
+				  slideNumber: true,
+
+	        // The "normal" size of the presentation, aspect ratio will be preserved
+	        // when the presentation is scaled to fit different resolutions. Can be
+	        // specified using percentage units.
+	        width: 960,
+	        height: 700,
+
+			});
+		</script>
+	</body>
+</html>
