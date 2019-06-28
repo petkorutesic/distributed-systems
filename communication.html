@@ -984,7 +984,7 @@ print("Number of lines in the file is: ", linecount)
           </section> 
 
           <section data-transition="linear">
-              <h3>RPC - Example 2 - client side</h3>
+              <h3>RPC - Example 2 - server side</h3>
               <ul style="font-size:90%">
                   <li>server side reads the file
                       and every time calls client side function to print a line </li>
@@ -1076,12 +1076,46 @@ t.start()
                   </ul>
                   <li>CORBA showed to have many shortcomings and limitations
                       when used in Web environments and is supersided by more
-                      compliant technologies </li>
+                      compliant technologies (web services) </li>
               </ul>
           </section> 
 
           <section data-transition="linear">
               <h3><mark>Web services</mark></h3>
+              <ul style="font-size:75%">
+                  <li>historical overview of Web applications roughly looks as fallows:</li>
+                  <ul>
+                      <li><b>static web pages</b> - static HTML pages represented in
+                          browsers </li>
+                      <li><b>dinamic web pages</b> - interactions supported by Thread-based Server-technologies</li>
+                      <ul>
+                          <li>Java Servlets</li>
+                          <li>Java Server Pages (JSP)</li>
+
+                          <li>Hypertext Preprocessor (PHP)</li>
+                          <li>ASP.NET</li>
+                      </ul>
+                      <img src="myfiles/images/communication/man-machine.svg" style="width:60%" />
+                    <li>these technologies facilitated <b>man-to-machine</b> communication</li> 
+                  </ul>
+
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>Web services</h3>
+              <ul style="font-size:80%">
+                  <li>historicaly next step was to standardize <b>machine-to-machine</b>
+                      communication on the Web </li>
+                  <li>here <b>Web services</b> come into play</li>
+                  <img src="myfiles/images/communication/machine-machine.svg" style="width:80%" />
+              </ul>
+          </section> 
+
+
+
+          <section data-transition="linear">
+              <h3>Web services</h3>
               <ul style="font-size:80%">
                   <li><b>web service</b> is a distributed application whose components
                       are executed on distinct devices </li>
@@ -1090,7 +1124,7 @@ t.start()
                   <ul>
                       <li><b>language transparency</b> is the key to web service
                           <b>interoperability</b></li>
-                      <li>interoperabilty represents an ability of web services and <em>requesters</em>
+                      <li>interoperabilty represents an ability of <em>web services</em> and <em>requesters</em>
                           to interact seamlessly despite of differences in programming
                           languages, platforms and supporting libraries</li>
                       <li>language transparency is achieved by exchanging data
@@ -1106,7 +1140,7 @@ t.start()
 
           <section data-transition="linear">
               <h3>Web services cont.</h3>
-              <ul>
+              <ul style="font-size:80%">
                   <li>Web services are tipically <b>based on HTTP protocol</b></li>
                   <li>client can make requests for various web services (servers can
                      also behave as clients to some other servers)
@@ -1117,14 +1151,12 @@ t.start()
                       other services that make up application</li>
                       <li><b>easier integration</b> - providing easier communication between 
                       organizations </li>
-                      <li><b>service reuse</b> - providing easier communication between 
-                          organizations </li>
-
+                      <li><b>service reuse</b> - combining services to make a new functionality </li>
                   </ul>
-                  <li>Web services can be devided roughtly into two categries:</li>
+                  <li>Web services can be "roughtly" devided  into two categries:</li>
                   <ul>
-                    <li>SOAP based</li> 
-                    <li>REST style</li> 
+                    <li><b>SOAP</b> based</li> 
+                    <li><b>REST</b> style</li> 
                   </ul>
               </ul>
           </section> 
@@ -1138,7 +1170,7 @@ t.start()
                   <li>transport-independent messaging protocol</li>
                   <li> mechanism for defining the unit of communication</li>
                   <li> mechanism for error handling</li>
-                  <li>messages are XML documents which follow a specific pattern</li>
+                  <li>messages are <b>XML</b> documents which follow a specific pattern</li>
                   <ul>
                       <li>root element is known as Envelope element</li>
                       <li>header contains rooting data</li>
@@ -1147,7 +1179,29 @@ t.start()
               </ul>
           </section> 
 
-
+          <section data-transition="linear">
+              <h3>XML (eXtensible Markup Language)</h3>
+              <p>It's a markup language similar to HTML which is designed to
+              store and transport data</p>
+              <ul style="font-size:80%">
+                  <li>XML tags are not predefined as HTML tags</li>
+                  <li>XML doesn't carry information how data should be presented</li>
+                  <li>XML is hardware-independent and that's why it's used
+                  for web services</li>
+                  <li>each tag has it's cooresponding ending tag</li>
+                  <pre class="stretch"><code class="hljs xml" style="font-size:80%;
+                                                    line-height:1.3;  word-wrap: break-word;">
+<?xml version="1.0"?>
+&lt;message&gt;
+  <sender>Alice</sender>
+  <receiver>Bob</receiver>
+  <message-body>  
+      This is the place for the message body.
+  </message-body>
+&lt;/message&gt;
+                  </code></pre>
+              </ul>
+          </section> 
 
           <section data-transition="linear">
               <h3>SOAP message format</h3>
@@ -1182,43 +1236,129 @@ t.start()
 
 
           <section data-transition="linear">
-              <h3><mark>WSDL</mark> - Web Service Description Language</h3>
+              <h3>WSDL - (Web Service Description Language)</h3>
               <p> web services have to be described in order to clients know
                   what they offer (what they do)</p>
 
-              <ul>
+              <ul style="font-size:80%">
                   <li>WSDL file is a description of what the web service does</li>
 
                  <li>WSDL file is an XML format for describing all the information
                  needed to invoke and communicate with a Web service</li>
-                 <li>WSDL contains</li>
+                 <li>WSDL contains:</li>
                  <ul>
                      <li><b>Functional description</b> - detail on how the Web
                          service is invoked, and focuses on details of syntax of the message and how to
                          configure protocols to deliver message</li>
-                     <li><b>nenfunctional description</b> - details secondary for the
+                     <li><b>nonfunctional description</b> - details secondary for the
                          message such as security policy and additionaly instructions
                  </ul>
                   
+                 <li>WSDL is automatically generated </li>
+                 <ul>
               </ul>
           </section> 
+
+          <section data-transition="linear">
+              <h3>UDDI - (Universal Description, Discovery and Integration)</h3>
+              <ul style="font-size:80%">
+                  <ul>
+                      When Web services are made they have to be publish and Web consumers need
+                      some means to search and find them
+                      <li><b>UDDI</b> is an XML-based registry of Web services</li>
+                      <ul>
+                          <li>UDDI search mechanism can focus on different criteria - business name,
+                          business category, location, URL, etc. </li>
+                          <li> UDDI can be interogated using SOAP messages and should
+                          provide access to WSDL documents of services which are in it's
+                          directory</li> 
+                          <li>UDDI registries are commonly found in companies where
+                          facilitate easer access to services</li>
+                      </ul>  
+              </ul>
+          </section> 
+
+
+          <section data-transition="linear">
+              <h3>SOAP web services - properties</h3>
+
+              <ul>
+                  <li>SOAP web services become a well defined middleware
+                      technology for the Internet</li>
+                  <li> the use of HTTP made them usable besides Internet</li>
+                  <li>they become open standards implemented by all main
+                      programming languages   </li>
+
+                  <li>SOAP web services have been over-engineered </li>
+                  <li>Additional burden that XML based SOAP messages put on
+                      network communication</li>
+
+                 <li>this complexity of SOAP explains the current popularity of RESTful approaches</li>
+              </ul>
+          </section>
 
 
           <section data-transition="linear">
               <h3><mark>RESTful Web Services</mark></h3>
               <ul style="font-size:80%">
                   <li>Representational State Transfer (REST) </li>
+                  <li>SOAP is messaging protocol while REST is a style of software
+                  architecture </li>
+                  <li>REST is an architecture for distributed systems (in which text,
+                      video, graphics and other media are stored across a network and
+                  connected through hyperlinks</li>
+                 <li>evertything that has an URI is a <b>resource</b></li> 
+                 <li>RESTful approach is to use HTTP as an API not just as a
+                     transport protocol(in SOAP web services)</li>
+                 <li>HTTP has its own methods that are suitable for CRUD operations </li>
+                 <li>RESTful uses HTTP methods as onwn verbs </li>
                   <ul>
                       <li>GET - Reads an existing resource</li>
                       <li>POST - Creates a new resource </li>
                       <li>PUT - Updates an existing resource </li>
                       <li>DELETE - Deletes an existing resource </li>
                   </ul>
-                  <li></li>
+              </ul>
+          </section> 
+
+          <section data-transition="linear">
+              <h3>REST features</h3>
+              <ul style="font-size:80%">
+                  <li>REST messages are more simple than SOAP messages</li>
+                  <li>GET and DELETE verbs are used in requests that don't have a body</li>                   
+                  <li>GET request, for instance, have no body and
+                      query arguments are contained in the query string</li>
+                  <ul>
+                      <li>http://www.students-database.com/students?average-mark<3&studycourse=WISC17</li>
+                      <li>question mark(?) begins the query string and
+                          attributes which are key-value pairs are separated by ampersand(&)</li>
+                  </ul>
+                  <li>POST request has a body but that body can contain arbitrary
+                      XML document (instead of SOAP envelope in SOAP web services)</li>
               </ul>
           </section> 
 
 
+
+          <section data-transition="linear">
+              <h3>RESTful web services in Java</h3>
+              <ul style="font-size:80%">
+                  <li><b>JAX-RS</b> (Java API for RESTful Web Services)  is a specification used in Java to
+                      implement RESTful applications</li>
+                  <li> JAX-RS is an API specification with it's specific annotations</li>
+                  <li>JAX-RS has serveral implementations such as
+                      <a href="https://jersey.github.io/">Jersey</a>,
+                      <a href="https://resteasy.github.io/">RESTEasy</a>
+                       
+                      <a href="https://cxf.apache.org/">Apache CXF</a>
+                  </li>
+                  <li> <a href="https://spring.io/projects/spring-framework">Spring framework</a>
+                      on the other hand provides an alternative implemetation of  RESTful applications
+                  which doesn't comply to JAX-RS standard </li>
+                  <a href="https://cxf.apache.org/">Apache CXF</a>
+                  
+              </ul>
+          </section> 
 
           <section data-transition="linear">
               <h3> Additional literature used for these slides </h3>
