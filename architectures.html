@@ -103,13 +103,15 @@
 
 				  <section data-transition="linear">
               <h2>Layered architectures</h2>
-
-              <img src="myfiles/images/architectures/layers1.png" style="width:80%"/>
-              
-
-              <ul class ="full-slide">
+              <ul style="font-size:80%">
+                  <li>architectures in which componnets of the systems are organized
+                  in a layered fashion</li>
                   <li>communication through downcalls (rarely upcalls)</li>
               </ul>
+              <img src="myfiles/images/architectures/layers1.png" style="width:70%"/>
+              
+
+
               <footer style="font-size:33%">
                   Picture taken from  <cite><a href="https://www.distributed-systems.net/index.php/books/distributed-systems-3rd-edition-2017/">
                   <i>Distributed Systems 3rd edition (2017)</i></a></cite>
@@ -194,11 +196,12 @@
                   </div>
 						      <div class="content">
                       <ul>
-                          <li>more loose organisation</li>
-                          <li><mark>objects</mark> - represent components</li>
-                          <li><mark>procedure calls</mark> - represent connectors </li>
-                          <li>procedure calls take place over the network</li>
-
+                          <li>architectures which are organized in a more loose manner, where:</li>
+                          <ul>
+                              <li><mark>objects</mark> - represent components</li>
+                              <li><mark>procedure calls</mark> - represent connectors </li>
+                              <li>procedure calls take place over the network</li>
+                          </ul>
                       </ul>
                       <!-- represent natural way of encapsulating data and
                            operatins that cann be performed on that data
@@ -222,6 +225,11 @@
                   <li>remote objects - in reality we have only implemented interfaces on the other machine</li>
                   <li>encapsulation</li>
               </ul>
+              <footer style="font-size:33%">
+                  Picture source:  <cite><a href="https://www.distributed-systems.net/index.php/books/distributed-systems-3rd-edition-2017/">
+                  <i>Distributed Systems 3rd edition (2017)</i></a></cite>
+                  M. van Steen and A.S. Tanenbaum.
+              </footer>
           </section>
 
 
@@ -253,9 +261,9 @@
               <h3>Resource-based architecture</h3>
               <ul style="font-size: 70%">
                   <li>Integrating many various components in
-                      service-oriented architecture can be cumbersome</li>
-                  <li>This led to a new alternative approach</li>
-                  <li>view of distributed system as a collection of resources</li>
+                      service-oriented architecture can be cumbersome and
+                  that led to this new alternative approach</li>
+                  <li>view of distributed system as a <b>collection of resources</b></li>
                  <!-- resources individually managed by components--> 
                   <li style="font-weight:bold">Representational State Transfer (REST)</li>
                   <li>REST characteristics:</li>
@@ -310,7 +318,7 @@
                        Holy wars are being fought on this topic
                   -->
                   <li> SOA client and server are simply more coupled</li>
-                  <li style="margin-bottom:32px"> REST client is more like a browser.</li>
+                  <li style="margin-bottom:32px"> REST client is more "like" a browser.</li>
                   
                   <li> SOA client has to know exactly what service it needs</li>
                   <li style="margin-bottom:32px"> REST client has to know simply only entry point and media type</li>
@@ -403,28 +411,7 @@
           </section>
 
   				<section data-transition="linear">
-              <h3>Middleware organization</h3>
-              <ul style="font-size: 70%">
-                  <li>overall organiztion of the actual distributed systems</li>
-                  <li>two most used design patterns for middleware organization</li>
-                  <ul>
-                      <li style="font-weight:bold">wrappers</li>
-                      <ul>
-                          <li>wrappers (adapters) are components which offer interface
-                              suitable for client applications</li>
-                          <li>solve the problem of incompatible interfaces</li>
-                      </ul>
-                      
-                      <li style="font-weight:bold">interceptors</li>
-                      <ul>
-                          <li>break usual flow of control in orderd to execute code </li>
-                      </ul>
-                  </ul>
-              </ul>
-          </section>
-
-  				<section data-transition="linear">
-              <h3>System architecture</h3>
+              <h3><mark>System architecture</mark></h3>
               <ul style="font-size: 80%">
                   <li>an instance of software architecture which decides on:</li>
                   <ul>
@@ -468,6 +455,11 @@
                   <div class="image">
                       <img src="myfiles/images/architectures/simple-client-server.png" style="width:100%"  />
 							    </div>
+                  <footer style="font-size:33%">
+                      Picture source:  <cite><a href="https://www.distributed-systems.net/index.php/books/distributed-systems-3rd-edition-2017/">
+                      <i>Distributed Systems 3rd edition (2017)</i></a></cite>
+                      M. van Steen and A.S. Tanenbaum.
+                  </footer>
           </section>
 
           <section data-transition="linear">
@@ -543,8 +535,13 @@
                           <!-- What are examples of this architecture?
                           transaction processing or Web sites--> 
                       </ul>
-	
 							    </div>
+                  <footer style="font-size:33%">
+                      Picture source:  <cite><a href="https://www.distributed-systems.net/index.php/books/distributed-systems-3rd-edition-2017/">
+                      <i>Distributed Systems 3rd edition (2017)</i></a></cite>
+                      M. van Steen and A.S. Tanenbaum.
+                  </footer>
+
           </section>
 
 
