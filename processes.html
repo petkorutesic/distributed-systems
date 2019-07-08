@@ -83,10 +83,10 @@
                           <ul>
                               <li>
                                   storing <b>process context</b> containing entries for storing CPU
-                                  register values, memmory maps, open files, privileges, etc.
+                                  register values, memory maps, open files, privileges, etc.
                               </li>
                               <li>
-                                  operating system takes great care to encore that processes don't
+                                  operating system takes great care to ensure that processes don't
                                   affect each other in an unexpected way
                               </li>
                           </ul>
@@ -109,8 +109,8 @@
                       shared by several threads
                   </li>
                   <li>
-                      allowing blocking system calls without blocking entire process
-                      in which thread is running.
+                      threads allow blocking some system calls <b>without blocking entire process</b>
+                      in which threads is running.
                   </li>
               </ul>
 				  </section>
@@ -122,19 +122,21 @@
 							<h3>Threads</h3>
               <ul>
                   <li>
-                      implementing of threads at the  user level
+                      implementing of <b>threads at the  user level</b>
+                      also called many-to-one threading model 
                   </li>
                   <ul>
                       <li>
-                          drawback - many-to-one threading model  
-                          multiple threads mapped to a single schedulable 
+                          drawback - 
+                          multiple threads mapped to a single schedulable entity 
                       </li>
                       <li>
-                          invocation of blocking system blocks entire process
+                          problem: invocation of blocking system calls will blocks entire process
+                          to which thread belongs
                       </li>
                   </ul>
                   <li>
-                      implementing threads in the operating system kernel 
+                      implementing <b>threads in the operating system kernel</b> 
                   </li>
                   <ul>
                       <li>
@@ -149,15 +151,15 @@
 						  
 							<h3>Threads</h3>
 
-              <ul>
+              <ul style="font-size:80%">
                   <li>
                       nevertheless using threads is only one way how to organize 
                       simultaneous and concurrent executions
                   </li>
                   
                   <li>
-                      applications are often constructed as a collection of concurrent  
-                      processes
+                      alternative way: applications are often constructed as a
+                      <b>collection of concurrent processes</b>
                   </li>
                   <ul>
                       <li>
@@ -166,12 +168,10 @@
                         <li> group of processes </li>
                         <li> each process forms a single-threaded instantiation of the server </li>
                   </ul>
-                  
-                  <li> thread programming difficult because the developer is fully responsible for
+                  <li> <b>thread programming</b> is difficult because the developer is fully responsible for
                   managing concurrent access to shared data </li>
-                  <li> processes on the other hand have are protected by hardware support
+                  <li> processes, on the other hand, are protected by hardware support
                       <li>access data outside allocated memory </li>
-                  
               </ul>
 				  </section>
 
@@ -195,13 +195,48 @@
 				  </section>
 
           <section data-transition = "linear" >
+							<h3>Threads  in Java</h3>
+              <ul>
+                  <li>
+                      In java threads can be created in one of two ways:
+                  </li>
+                  <ul>
+                      <li>by extending <b>Thread</b> class</li>
+                      <li>by implementing <b>Runnable</b> interface</li>
+                     
+                  </ul>
+
+              </ul>
+				  </section>
+
+          <section data-transition = "linear" >
+							<h3> Extending of Thread class</h3>
+                  <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
+public class ThreadExample extends Thread {
+    @Override
+    public void run(){
+       // thread body 
+    }
+}
+                  </code></pre>
+                  <p> thread is created and run by the following:</p>
+                  <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
+Thread newThread = ThreadExample();
+newThread.run();
+                  </code></pre>
+   
+				  </section>
+
+          <section data-transition = "linear" >
 							<h3>Threads - examples in Java</h3>
               <ul>
                   <li>
-                    Task1: Write a JAVA program  which starts 10 threads and prints their Ids from the run method.
+                      Task1: Write a JAVA program  which starts 10 threads and
+                      prints their Ids from the run method.
                   </li>
                   <li>
-                      Task2: Runn the same task using Runnable implementation.
+                      Task2: Solve the problem from the task 1 using
+                      <b>Runnable</b> implementation.
                   </li>
 
               </ul>
@@ -216,7 +251,8 @@
                   <li> speedup $$S = \frac{T_1}{T_n} $$</li>
                   <li>speedup $$S = \frac{1}{(1-p) + \frac{p}{N}}$$</li> 
               </ul>
-              <p>theoretial speedup is limited to at most 20 times if 0.95% of the program can be parallelized</p>
+              <p>example: <b>theoretialy speedup</b> is limited to at most 20 times if
+                  0.95% of the program can be parallelized</p>
               <!--$$T(s)=(1-p)T-\frac{p}{s}T$$--> 
           </section> 
 

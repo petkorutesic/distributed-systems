@@ -163,21 +163,21 @@
           <section data-transition="zoom">
               <h2> Two phase commit protocol - problems</h2>
               <ul style="font-size:70%">
-                  <li> participants and coordinator wait some time and this be the reason
+                  <li> participants and coordinator wait some time and this can  be the reason
                        for problems if some of processes are stuck </li>
-                  <ul><li>to prevent this time mechanisms are used</li></ul>
+                  <ul><li>to prevent this, time mechanisms are used</li></ul>
 
                   <li>three points of potential wait</li> 
                   <ol>
-                      <li>participant is waiting in INIT state for a VOTE_REQUEST from the coordinator</li>
+                      <li>participant is waiting in <b>INIT</b> state for a VOTE_REQUEST from the coordinator</li>
                       <ul><li>solution - after some time participatn can decide
                           to send VOTE_ABORT to the coordinator</li></ul>
-                      <li>coordinator blocked in state WAIT - waiting for the
+                      <li>coordinator blocked in state <b>WAIT</b> - waiting for the
                           votes of each participant</li>
                       <ul><li>solution - after some time coordinator should send
                           GLOBAL_ABORT to all participants
                       </li></ul>
-                      <li>participant is blocked in state READY waiting for the
+                      <li>participant is blocked in state <b>READY</b> waiting for the
                       global vote sent by the coordinator</li>
                       <ul><li>solution - simplest solution is to block
                       each participant until coordinator recovers</li></ul>
@@ -189,8 +189,8 @@
           <section data-transition="zoom">
               <h2> Two phase commit protocol - blocking factors</h2>
               <ul style="font-size:70%">
-                  <li> better solutions for the <b>case 3.</b> from the last page
-                      when participant is waiting in READY state </li>
+                  <li> better solutions for the <b>case 3.</b>(when participant is waiting in READY state) from the last page
+                       </li>
                   <ul><li>first solution would be that participant (say participant P)
                       contacts another participant Q and decide from it's state what
                       should do:

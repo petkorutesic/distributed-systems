@@ -550,7 +550,7 @@
               <ul style="font-size:90%">
                   <li>clients or servers are split into equivalent parts</li>
                   <li>each part operates on it's share of data </li>
-                  <li>processes that constitute pear-to-pear system tend to be equal  </li>
+                  <li>processes that constitute peer-to-peer system tend to be equal  </li>
                   <li> <b>servant</b> - process that acts as a client and a server at the same time </li>
                   <li> <b>overlay network</b></li>
                   <ul>
@@ -563,7 +563,7 @@
 
           <section  data-transition="linear">
               <h3>Types of peer-to-peer systems</h3>
-              <p> 2 general types identified</p>
+              <p> two general types identified</p>
               <ul style="font-size:90%">
                   <li><b>Structured peer-to-peer systems</b></li>
                   <ul>
@@ -578,7 +578,7 @@
           </section>
 
           <section  data-transition="linear">
-              <h3>Structured pear-to-pear systems</h3>
+              <h3>Structured peer-to-peer systems</h3>
               <p> </p>
               <ul style="font-size:90%">
                   <li>specific topology</li>
@@ -587,7 +587,7 @@
                       <b>$key(data\ item) = hash(data\ item's\ value) $</b>
                   <li>peer-to-peer system stores pairs <b>(key, value)</b></li>
                   <li>each node is responisble for a specific subset of keys</li>
-                  <li>each node is with one of these keys</li>
+                  <li>each node is <b>identified</b> with one of these keys</li>
                   <li>system represents <b>distributed hash table</b></li>
                  <li>system has to provide efficent implementations of lookup function</li>
                  <b>$existing\ node= lookup(key) $</b>
@@ -657,23 +657,29 @@
           <section data-transition="linear">
               <h3>Edge server systems</h3>
               <ul style="font-size:80%">
-                  <li>deployed on the Internet where servers are
-                      placed "at the edge" of the network  </li>
+                  <li>hybrid architecture in which <b>Internet Service Providers (ISPs)</b> to which end users
+                      connect are considered to be on the edge (<b>edge servers</b>)</li>
+                  <li>edge servers (ISPs):</li>
                   <ul>
-                      <li><b>Internet Service Providers (ISP)</b> -
-                          boundary between enterprise networks and actual Internet </li>
-                      <li>
-                          used for optimization of content and application distribution
-                      </li>
+                      <li>are used to optimize content and application distribution</li>
+                      <li>represent a boundary between enterprise networks and actual Internet </li>
+                      <li> are used to optimize the content,  for application distribution, for Web site
+                      replication etc.</li>
                   </ul>
               </ul>
           </section>
 
           <section data-transition="linear">
               <h3>Edge server systems</h3>
-              <img src="myfiles/images/architectures/edge-server.png" />
-              <p>can be organized form the <b>origing server</b> and
-                  other servers replicating Web content </p>
+              <img src="myfiles/images/architectures/edge-server.png" style="width:80%">
+              <p style="font-size:80%">internet as a collection of edge servers</p>
+
+              <footer style="font-size:33%">
+                  Picture source:  <cite><a href="https://www.distributed-systems.net/index.php/books/distributed-systems-3rd-edition-2017/">
+                  <i>Distributed Systems 3rd edition (2017)</i></a></cite>
+                  M. van Steen and A.S. Tanenbaum.
+              </footer>
+
           </section>
 
           <section data-transition="linear">
@@ -706,18 +712,21 @@
           <section data-transition="linear">
               <h3>BitTorrent - organization</h3>
               
-              <ul>
+              <ul style="font-size:90%">
                   <li>
-                      <b>torrent files</b> - located on the well their Web sites 
+                      well-known Web sites contain referrences to <b>torrent files</b>  
+                  </li>
+                  <li>
+                      torrent files - contain information necessary to download a specific file
                   </li>
                   <li>
                        torrent files contain links to <b>trackers</b>
                   </li>
                   <li>
-                       tracker has an account of active <b>nodes</b>
+                      tracker has an account of <b>active nodes</b>
                   </li>
                   <li>
-                      active nodes - nodes which are downloading the file, as well
+                      active nodes - nodes which in the process of downloading the same file
                   </li>
                   <li>
                      simple rule for colaboration 
@@ -748,7 +757,7 @@
                       <b>swarm</b> - complete set of downloading nodes
                   </li>
                   <li>
-                      <b>neighbor set</b> - subset of swarm with whom node collaborates is called   
+                      <b>neighbor set</b> - subset of swarm with whom node collaborates   
                   </li>
                   <li>
                       neighbor set periodically updated by contacting the tracker 
