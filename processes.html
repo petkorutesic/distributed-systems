@@ -210,7 +210,7 @@
 				  </section>
 
           <section data-transition = "linear" >
-							<h3> Extending of Thread class</h3>
+							<h3> Extending of the Thread class</h3>
                   <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
 public class ThreadExample extends Thread {
     @Override
@@ -219,13 +219,60 @@ public class ThreadExample extends Thread {
     }
 }
                   </code></pre>
-                  <p> thread is created and run by the following:</p>
+                  <p style="font-size:70%"> a thread is created and run by the following command:</p>
                   <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
 Thread newThread = ThreadExample();
-newThread.run();
+newThread.start();
                   </code></pre>
-   
+                  <ul style="font-size:70%"><li> the other way to start thread: newThread.run();
+                      is "wrong" because it starts thread in the current thread - this can be a 
+                      question in Java interviews</li></ul>
 				  </section>
+
+
+          <section data-transition = "linear" >
+							<h3> Thread.sleep() method</h3>
+              <ul style="font-size:70%">
+                  <li> this method is used to pause the execution of current thread for specified
+                  time in miliseconds</li>
+                  <li> the actual time thread sleeps depends on system timers and schedulers</li>
+                    <ul>
+                        <li>if the system is more busy it will be more 
+                    </ul>
+              </ul>
+              <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
+public class ThreadSleepExample {
+
+    public static void main(String[] args) throws InterruptedException {
+        long start = System.currentTimeMillis();
+        Thread.sleep(2000);
+        System.out.println("Sleep time in ms = "+
+                        (System.currentTimeMillis()-start));
+    }
+}
+              </code></pre>
+          </section>
+
+          <section data-transition = "linear" >
+							<h3> Implementing Runnablel interface</h3>
+              <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
+public class RunnableExample implements Runnable {
+
+    public void run(){
+       // thread body 
+    }
+   //other methods and fields
+
+    public static void main(String[] args) {
+        new Thread(new RunnableExample()).start();
+    }
+
+}
+              </code></pre>
+              <p style="font-size:70%"> creating and starting thread different from the extending thread</p>
+				  </section>
+
+
 
           <section data-transition = "linear" >
 							<h3>Threads - examples in Java</h3>
@@ -242,6 +289,45 @@ newThread.run();
               </ul>
 				  </section>
 
+          <section data-transition = "linear" >
+							<h3> 10 threads with extending Thread</h3>
+              <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
+public class ThreadExample1 extends Thread{
+	   @Override
+	   public void run() {
+	       System.out.println(Thread.currentThread().getName());
+	   }
+
+     public static void main(String[] args) {
+        for (int i=0; i< 10; i++) {
+           (new ThreadExample1()).start();
+        }
+    }
+
+}
+              </code></pre>
+              <p style="font-size:70%"> threads are simply created and started</p>
+				  </section>
+
+          <section data-transition = "linear" >
+							<h3> 10 threads with in a dynamic array</h3>
+              <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
+public class ThreadExample1 extends Thread{
+  public static List<Thread> threads = new ArrayList<Thread>();
+	 @Override
+	 public void run() {
+	    System.out.println(Thread.currentThread().getName());
+	 }
+
+   for (int i=0; i< 10; i++) {
+      Thread newThread =new ThreadExample1();
+      newThread.start();
+      threads.add(newThread);
+   }
+}</code></pre>
+				  </section>
+
+          
           <section data-transition="zoom">
               <h3> Amdahl's law</h3>
               <img src="myfiles/images/processes/amdahls_law.png" style="width:40%"/> 

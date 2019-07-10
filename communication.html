@@ -481,15 +481,14 @@ while(true){
           <section data-transition="linear">
               <h3> Java TCP Sockets - server side</h3>
 
-          <pre><code class="hljs java" style="font-size:70%; word-wrap: break-word;">
+              <pre class="strech"><code class="hljs java" style="font-size:50%; word-wrap: break-word;">
 public class HelloServer {
     public static void start(int port)){
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
-
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
+        BufferedReader in = new BufferedReader(
+                   new InputStreamReader(clientSocket.getInputStream()));
         String hellogreeting = in.readLine();
             if ("Hello server".equals(hellogreeting)) {
                 out.println("Hello Client");
