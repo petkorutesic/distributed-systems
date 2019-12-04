@@ -136,7 +136,7 @@
                   <ol>
                       <li>coordinator receives votes and desides: </li>
                       <ul>
-                          <li>if all participants voted font
+                          <li>if all participants voted 
                               to commit then coordinator sends <b>GLOBAL-COMMIT</b> to
                               all participants</li>
                           <li>if, however, at least one voted to abort transaction
@@ -189,8 +189,8 @@
           <section data-transition="zoom">
               <h2> Two phase commit protocol - blocking factors</h2>
               <ul style="font-size:70%">
-                  <li> better solutions for the <b>case 3.</b>(when participant is waiting in READY state) from the last page
-                       </li>
+                  <li> better solutions for the <b>case 3.</b> from the last page
+                      (when participant is waiting in READY state) </li>
                   <ul><li>first solution would be that participant (say participant P)
                       contacts another participant Q and decide from it's state what
                       should do:

@@ -110,7 +110,7 @@
                   </li>
                   <li>
                       threads allow blocking some system calls <b>without blocking entire process</b>
-                      in which threads is running.
+                      in which threads are running.
                   </li>
               </ul>
 				  </section>
@@ -254,7 +254,7 @@ public class ThreadSleepExample {
           </section>
 
           <section data-transition = "linear" >
-							<h3> Implementing Runnablel interface</h3>
+							<h3> Implementing Runnable interface</h3>
               <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
 public class RunnableExample implements Runnable {
 
@@ -310,10 +310,10 @@ public class ThreadExample1 extends Thread{
 				  </section>
 
           <section data-transition = "linear" >
-							<h3> 10 threads with in a dynamic array</h3>
+							<h3>Solution: 10 threads in a dynamic array</h3>
               <pre><code class="hljs java" style="font-size:80%; word-wrap: break-word;">
 public class ThreadExample1 extends Thread{
-  public static List<Thread> threads = new ArrayList<Thread>();
+  public static List&lt;Thread&gt; threads = new ArrayList&lt;Thread&gt;();
 	 @Override
 	 public void run() {
 	    System.out.println(Thread.currentThread().getName());
